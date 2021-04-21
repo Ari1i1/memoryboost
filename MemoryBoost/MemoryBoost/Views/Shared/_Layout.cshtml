@@ -16,7 +16,14 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <a type="button" class="btn btn-outline text-white" style="border-color: white;" asp-area="Identity" asp-page="/Account/Login">log in</a>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <a type="button" class="btn btn-outline text-white" style="border-color: white;" asp-area="Identity" asp-page="/Account/Login">log in</a>
+                }
+                else
+                {
+                    <div id="profile-avatar"></div>
+                }
             </div>
         </nav>
     </header>
@@ -26,9 +33,18 @@
             <div class="col-4">
                 <a class="btn btn-outline text-white" style="background-color: #59F9CC;">play</a>
             </div>
-            <div class="col-8">
-                <a class="btn btn-outline text-white" style="border-color: white;" asp-area="Identity" asp-page="/Account/Register">sign up</a>
-            </div>
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <div class="col-8">
+                    <a class="btn btn-outline text-white" style="border-color: white;" asp-area="Identity" asp-page="/Account/Register">sign up</a>
+                </div>
+            }
+            else
+            {
+                <div class="col-8">
+                    <a class="btn btn-outline text-white" style="border-color: white;">start trainig</a>
+                </div>
+            }
         </div>
     </div>
     
