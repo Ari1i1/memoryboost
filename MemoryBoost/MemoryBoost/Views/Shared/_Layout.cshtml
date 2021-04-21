@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body style="background: rgb(128, 108, 221); background: linear-gradient(90deg, rgba(128, 108, 221, 1) 0%, rgba(89, 249, 204, 1) 100%)">
+<body class="background-gradient">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-3">
             <div class="container">
@@ -20,18 +20,21 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-            <div class="container text-center">
+    <div class="container d-flex justify-content-center container-f-buttons">
+        @RenderBody()
+        <div class="row align-self-center">
+            <div class="col-4">
                 <a class="btn btn-outline text-white" style="background-color: #59F9CC;">play</a>
-                <a type="button" class="btn btn-outline text-white" style="border-color: white;" asp-area="Identity" asp-page="/Account/Register">sign up</a>
             </div>
-        </main>
+            <div class="col-8">
+                <a class="btn btn-outline text-white" style="border-color: white;" asp-area="Identity" asp-page="/Account/Register">sign up</a>
+            </div>
+        </div>
     </div>
+    
     <footer class="footer text-muted">
         <div class="container">
-            &copy; 2021 - MemoryBoost - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - MemoryBoost
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
