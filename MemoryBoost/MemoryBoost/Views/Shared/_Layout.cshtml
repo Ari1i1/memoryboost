@@ -7,38 +7,63 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
-<body>
+<body class="background-gradient">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MemoryBoost</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-3">
+            <div class="container-fluid">
+                <div class="row w-100">
+                    <div class="col-10">
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="font-size: 50px;">MemoryBoost</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    <div class="col-2 d-flex justify-content-center">
+                        <div class="row align-self-center">
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a type="button" class="btn btn-lg btn-block btn-outline text-white px-5" style="border-color: white; border-radius: 35px; font-size: 30px;" asp-area="Identity" asp-page="/Account/Login">log in</a>
+                            }
+                            else
+                            {
+                                <div class="profile-avatar d-flex justify-content-center mr-2" style="height: 100%;">
+                                    <a class="align-self-center"> @User.Identity.Name.Substring(0, 0) </a>
+                                </div>
+                                <a type="button" class="btn btn-lg btn-block btn-outline text-white px-5" style="border-color: white; border-radius: 35px; font-size: 30px;" asp-area="Identity" asp-page="/Account/Logout">log out</a>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div class="container d-flex justify-content-center container-f-buttons">
+        @RenderBody()
+        <div class="row align-self-center w-100" style="height: 20vh;">
+            <div class="col-2"></div>
+            <div class="col-3">
+                <a class="btn btn-lg btn-block btn-outline text-white" style="background-color: #59F9CC; border-radius: 35px; font-size: 30px;">play</a>
+            </div>
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <div class="col-5">
+                    <a class="btn btn-lg btn-block btn-outline text-white" style="border-color: white; border-radius: 35px; font-size: 30px;" asp-area="Identity" asp-page="/Account/Register">sign up</a>
+                </div>
+            }
+            else
+            {
+                <div class="col-5">
+                    <a class="btn btn-lg btn-block btn-outline text-white" style="border-color: white; border-radius: 35px; font-size: 30px;">start trainig</a>
+                </div>
+            }
+            <div class="col-2"></div>
+        </div>
     </div>
-
-    <footer class="border-top footer text-muted">
+    
+    <footer class="footer text-muted">
         <div class="container">
-            &copy; 2021 - MemoryBoost - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2021 - MemoryBoost
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
