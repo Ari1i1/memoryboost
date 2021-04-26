@@ -162,7 +162,6 @@ D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\MemoryBoost.
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\MemoryBoost.dll
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\MemoryBoost.pdb
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\MemoryBoost.genruntimeconfig.cache
-D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Login.cshtml.g.cs
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\Logout.cshtml.g.cs
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\Account\_ViewImports.cshtml.g.cs
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
@@ -189,3 +188,4 @@ D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\bin\Debug\netcoreapp3.1\runtimes\win
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\bin\Debug\netcoreapp3.1\runtimes\win-arm64\native\e_sqlite3.dll
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\bin\Debug\netcoreapp3.1\runtimes\win-x64\native\e_sqlite3.dll
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\bin\Debug\netcoreapp3.1\runtimes\win-x86\native\e_sqlite3.dll
+D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Account\Login.cshtml.g.cs
