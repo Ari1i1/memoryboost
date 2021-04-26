@@ -112,7 +112,7 @@ namespace MemoryBoost.Controllers
         {
             await this.signInManager.SignOutAsync();
             this.logger.LogInformation(4, "User logged out.");
-            return this.Redirect("/");
+            return RedirectToAction("Index", "Home");
         }
 
         #region Helpers
