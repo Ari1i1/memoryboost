@@ -11,15 +11,15 @@
         </li>
         <li class="nav-item">
             <form asp-area="" asp-controller="Account" asp-action="Logout">
-                <button type="submit" class="btn btn-lg btn-block btn-outline text-white px-5"
-                   style="border-color: white; border-radius: 35px; font-size: 30px;">log out</button>
+                <button type="submit" class="btn btn-lg btn-block btn-outline text-white px-xl-4 px-lg-3 px-md-2"
+                   style="border-color: white; border-radius: 35px;">log out</button>
             </form>
         </li>
     }
     else
     {
         <li class="nav-item">
-            <a type="button" class="btn btn-lg btn-block btn-outline text-white px-5" style="border-color: white; border-radius: 35px; font-size: 30px;" asp-area="Identity" asp-controller="Account" asp-action="Login">log in</a>
+            <a type="button" class="btn btn-lg btn-block btn-outline text-white px-xl-5 px-lg-5 px-md-4" style="border-color: white; border-radius: 35px;" asp-area="Identity" asp-controller="Account" asp-action="Login">log in</a>
         </li>
     }
 </ul>
