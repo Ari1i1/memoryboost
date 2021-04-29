@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BackendTest2
+namespace MemoryBoost
 {
     public static class DbMigration
     {
@@ -18,6 +18,7 @@ namespace BackendTest2
                 var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
                 context.Database.Migrate();
                 DbMigration.ConfigureIdentity(scope).GetAwaiter().GetResult();
+                DbMigration.CreateGameLevels(scope).GetAwaiter().GetResult();
             }
 
             return webHost;
@@ -60,6 +61,48 @@ namespace BackendTest2
             if (!await userManager.IsInRoleAsync(adminUser, adminsRole.Name))
             {
                 await userManager.AddToRoleAsync(adminUser, adminsRole.Name);
+            }
+        }
+        private static async Task CreateGameLevels(IServiceScope scope)
+        {
+            var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+            var gameLevels = context.GameLevels;
+
+            var firstLevel = await gameLevels.FindAsync(1);
+            if (firstLevel == null)
+            {
+                var firstLevelResult = new GameLevel
+                {
+                    Name = "The Easy One",
+                    CardsNumber = 10,
+                    SecForMemorizing = 10
+                };
+                context.Add(firstLevelResult);
+                await context.SaveChangesAsync();
+            }
+            var secondLevel = await gameLevels.FindAsync(2);
+            if (secondLevel == null)
+            {
+                var secondLevelResult = new GameLevel
+                {
+                    Name = "Try Yourself",
+                    CardsNumber = 16,
+                    SecForMemorizing = 13
+                };
+                context.Add(secondLevelResult);
+                await context.SaveChangesAsync();
+            }
+            var thirdLevel = await gameLevels.FindAsync(3);
+            if (thirdLevel == null)
+            {
+                var thirdLevelResult = new GameLevel
+                {
+                    Name = "Hardcore",
+                    CardsNumber = 20,
+                    SecForMemorizing = 17
+                };
+                context.Add(thirdLevelResult);
+                await context.SaveChangesAsync();
             }
         }
     }

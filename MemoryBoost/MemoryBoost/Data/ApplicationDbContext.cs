@@ -13,5 +13,7 @@ namespace MemoryBoost.Data
             : base(options)
         {
         }
+        public DbSet<GameLevel> GameLevels { get; set; }
+       
     }
 }
