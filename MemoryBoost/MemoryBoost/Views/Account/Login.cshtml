@@ -1,0 +1,50 @@
+﻿@model MemoryBoost.Models.AccountViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Log in";
+}
+
+
+<section>
+    <form id="account" method="post">
+        <h1 class="text-white text-center">@ViewData["Title"]</h1>
+        <h4 class="text-white">Use your account to log in</h4>
+        <hr />
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="form-group text-white">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" class="form-control" style="border-radius: 35px;" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group text-white">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" class="form-control" style="border-radius: 35px;" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group text-white">
+            <div class="checkbox">
+                <label asp-for="RememberMe">
+                    <input asp-for="RememberMe" />
+                    @Html.DisplayNameFor(m => m.RememberMe)
+                </label>
+            </div>
+        </div>
+        <div class="form-group d-flex justify-content-center">
+            <button type="submit" class="btn btn-outline align-self-center text-white px-5" style="border-color: white; border-radius: 35px; font-size: 20px;">log in</button>
+        </div>
+        <div class="form-group">
+            @*<p>
+                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                </p>*@
+            <p>
+                <ins>
+                    <a class="text-white text" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Register as a new user</a>
+                </ins>
+            </p>
+        </div>
+    </form>
+</section>
+
+
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}

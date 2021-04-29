@@ -1,26 +1,25 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@using MemoryBoost.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 
 <ul class="navbar-nav">
-@if (SignInManager.IsSignedIn(User))
-{
-    <li class="nav-item">
-        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-    </li>
-    <li class="nav-item">
-        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-        </form>
-    </li>
-}
-else
-{
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-    </li>
-}
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item profile-avatar d-flex justify-content-center mr-2" style="height: 100%;">
+            <a class="align-self-center"> @User.Identity.Name.Substring(0, 1) </a>
+        </li>
+        <li class="nav-item">
+            <form asp-area="" asp-controller="Account" asp-action="Logout">
+                <button type="submit" class="btn btn-lg btn-block btn-outline text-white px-xl-4 px-lg-3 px-md-2"
+                   style="border-color: white; border-radius: 35px;">log out</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a type="button" class="btn btn-lg btn-block btn-outline text-white px-xl-5 px-lg-5 px-md-4" style="border-color: white; border-radius: 35px;" asp-area="Identity" asp-controller="Account" asp-action="Login">log in</a>
+        </li>
+    }
 </ul>
