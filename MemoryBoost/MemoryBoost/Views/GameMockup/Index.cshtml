@@ -1,5 +1,4 @@
 ﻿
-
 @{
     ViewData["Title"] = "Index";
 }
@@ -7,24 +6,24 @@
 <div class="row justify-content-between">
     <div>
         <div>
-            <a class="text-white px-xl-5 px-lg-5 px-md-4" style="font-size: 20px;">time</a>
+            <a class="text-white px-xl-5 px-lg-5 px-md-4" style="font-size: 20px;">time:</a>
         </div>
     </div>
-        <div class="my-2 mr-5">
-            <a class="text-white px-xl-5 px-lg-5 px-md-4" style="font-size: 20px;">level: the easy one</a>
-        </div>
-        
+    <div class="my-2 mr-5">
+        <a class="text-white px-xl-5 px-lg-5 px-md-4" style="font-size: 20px;">level: the easy one</a>
+    </div>
+
 </div>
 
 <div class="row justify-content-between">
     <div>
         <div>
-            <a class="text-white px-xl-5 px-lg-5 px-md-4" style="font-size: 20px;">points</a>
+            <a class="text-white px-xl-5 px-lg-5 px-md-4" style="font-size: 20px;">points:</a>
         </div>
     </div>
     <div class="row my-2">
         <div class="mr-2">
-            <a type="button" class="btn btn-lg btn-block btn-outline text-white px-xl-5 px-lg-5 px-md-4" style="border-color: white; border-radius: 35px;">pause</a>
+            <a type="button" class="btn btn-lg btn-block btn-outline px-xl-5 px-lg-5 px-md-4" style="background-color: #59F9CC; color: #806CDD; border-radius: 35px;">pause</a>
         </div>
         <div class="mr-5">
             <a type="button" class="btn btn-lg btn-block btn-outline text-white px-xl-5 px-lg-5 px-md-4" style="border-color: white; border-radius: 35px;">stop</a>
@@ -36,40 +35,26 @@
     <div style="background-color: rgba(255,255,255,0.5); color: #806CDD; border-radius: 35px;"
          class="container h-100 d-flex flex-column align-self-center justify-content-center">
         <div class="cardWrapper">
-            <div class="row">
-                @for (int i = 0; i < 4; i++)
-                {
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 my-5 cardContainer">
-                        <div class="card">
-                            <div class="front"><h3 class="cardTitle">Flip me!</h3></div>
-                            <div class="back">
-                                <div class="content">
-                                    <h3 class="cardTitle">I was made with CSS3</h3>
-                                    <br />
-                                    <p id="happy"></p>
+            @for (int i = 0; i < 2; i++)
+            {
+                <div class="row">
+                    @for (int j = 0; j < 12; j++)
+                    {
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-6 my-5 cardContainer">
+                            <div class="card">
+                                <div class="front"><h3 class="cardTitle">Flip me!</h3></div>
+                                <div class="back">
+                                    <div class="content">
+                                        <h3 class="cardTitle">I was made with CSS3</h3>
+                                        <br />
+                                        <p id="happy"></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
-            </div>
-            <div class="row">
-                @for (int i = 0; i < 4; i++)
-                {
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 my-5 cardContainer">
-                        <div class="card">
-                            <div class="front"><h3 class="cardTitle">Flip me!</h3></div>
-                            <div class="back">
-                                <div class="content">
-                                    <h3 class="cardTitle">I was made with CSS3</h3>
-                                    <br />
-                                    <p id="happy"></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
+                    }
+                </div>
+            }
             @*@foreach (var item in Model)
                 {
 
@@ -81,3 +66,4 @@
         </div>
     </div>
 </div>
+
