@@ -8,6 +8,16 @@
   <ItemGroup>
     <Compile Remove="Data\Migrations\20210426143919_AddTest.cs" />
     <Compile Remove="Data\Migrations\20210426143919_AddTest.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210429122010_AddGameLevel.cs" />
+    <Compile Remove="Data\Migrations\20210429122010_AddGameLevel.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210429130505_AddGameLevelIdChange.cs" />
+    <Compile Remove="Data\Migrations\20210429130505_AddGameLevelIdChange.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210429131026_AddGameLevelIdDrop.cs" />
+    <Compile Remove="Data\Migrations\20210429131026_AddGameLevelIdDrop.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210429131105_AddGameLevelIdCreate.cs" />
+    <Compile Remove="Data\Migrations\20210429131105_AddGameLevelIdCreate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210429132120_AddGameLevel.cs" />
+    <Compile Remove="Data\Migrations\20210429132120_AddGameLevel.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
