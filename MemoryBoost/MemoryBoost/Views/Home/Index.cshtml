@@ -5,7 +5,9 @@
 <div class="row align-self-center w-100" style="height: 20vh;">
     <div class="col-2"></div>
     <div class="col-3">
-        <a class="btn btn-lg btn-block btn-outline" style="background-color: #59F9CC; color: #806CDD; border-radius: 35px; font-size: 30px;">play</a>
+        <a class="btn btn-lg btn-block btn-outline" 
+           asp-area="" asp-controller="GameLevels" asp-action="Index"
+           style="background-color: #59F9CC; color: #806CDD; border-radius: 35px; font-size: 30px;">play</a>
     </div>
     @if (!User.Identity.IsAuthenticated)
     {
