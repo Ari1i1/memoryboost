@@ -74,8 +74,8 @@ namespace MemoryBoost
                 var firstLevelResult = new GameLevel
                 {
                     Name = "The Easy One",
-                    CardsNumber = 10,
-                    SecForMemorizing = 10
+                    CardsNumber = 12,
+                    SecForMemorizing = 12
                 };
                 context.Add(firstLevelResult);
                 await context.SaveChangesAsync();
@@ -86,8 +86,8 @@ namespace MemoryBoost
                 var secondLevelResult = new GameLevel
                 {
                     Name = "Try Yourself",
-                    CardsNumber = 16,
-                    SecForMemorizing = 13
+                    CardsNumber = 18,
+                    SecForMemorizing = 15
                 };
                 context.Add(secondLevelResult);
                 await context.SaveChangesAsync();
@@ -98,8 +98,8 @@ namespace MemoryBoost
                 var thirdLevelResult = new GameLevel
                 {
                     Name = "Hardcore",
-                    CardsNumber = 20,
-                    SecForMemorizing = 17
+                    CardsNumber = 24,
+                    SecForMemorizing = 20
                 };
                 context.Add(thirdLevelResult);
                 await context.SaveChangesAsync();

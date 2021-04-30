@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MemoryBoost.Controllers
 {
-    public class GameMockupController : Controller
+    public class MockupController : Controller
     {
         // GET: GameMockupController
         public ActionResult Index()

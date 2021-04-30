@@ -11,7 +11,8 @@
     {
 
         <a class="btn btn-lg btn-block btn-outline font-weight-bold"
-           style="border: #806CDD solid 3px; border-radius: 35px; font-size: 30px;">@Html.DisplayFor(modelItem => item.Name)</a>
+           asp-area="" asp-controller="Games" asp-action="Create" asp-route-levelId="@item.Id"
+           style="border: #806CDD solid 3px; border-radius: 35px; color: #806CDD; font-size: 30px;">@Html.DisplayFor(modelItem => item.Name)</a>
     }
 </div>
 

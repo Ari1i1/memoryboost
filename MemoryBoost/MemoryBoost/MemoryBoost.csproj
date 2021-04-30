@@ -18,10 +18,39 @@
     <Compile Remove="Data\Migrations\20210429131105_AddGameLevelIdCreate.Designer.cs" />
     <Compile Remove="Data\Migrations\20210429132120_AddGameLevel.cs" />
     <Compile Remove="Data\Migrations\20210429132120_AddGameLevel.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210430164046_AddCards.cs" />
+    <Compile Remove="Data\Migrations\20210430164046_AddCards.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210430165124_AddGames.cs" />
+    <Compile Remove="Data\Migrations\20210430165124_AddGames.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210430181256_AddTests.cs" />
+    <Compile Remove="Data\Migrations\20210430181256_AddTests.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210430183026_XZ.cs" />
+    <Compile Remove="Data\Migrations\20210430183026_XZ.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210430183317_play.cs" />
+    <Compile Remove="Data\Migrations\20210430183317_play.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210430184053_AddGames.cs" />
+    <Compile Remove="Data\Migrations\20210430184053_AddGames.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210430190811_AddCardsUpdate.cs" />
+    <Compile Remove="Data\Migrations\20210430190811_AddCardsUpdate.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210430191103_AddCardsChange.cs" />
+    <Compile Remove="Data\Migrations\20210430191103_AddCardsChange.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210430191256_AddCardsChange.cs" />
+    <Compile Remove="Data\Migrations\20210430191256_AddCardsChange.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210430191338_AddCardsChange.cs" />
+    <Compile Remove="Data\Migrations\20210430191338_AddCardsChange.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210430191705_pleeeeeeeeease.cs" />
+    <Compile Remove="Data\Migrations\20210430191705_pleeeeeeeeease.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210430191900_AddCardsAndGames.cs" />
+    <Compile Remove="Data\Migrations\20210430191900_AddCardsAndGames.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\GameMockup\Index.cshtml" />
+    <Content Remove="Views\Games\Index.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Views\Games\Index.cshtml" />
+    <None Include="Views\Mockup\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
