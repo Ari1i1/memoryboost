@@ -42,6 +42,10 @@
     <Compile Remove="Data\Migrations\20210430191705_pleeeeeeeeease.Designer.cs" />
     <Compile Remove="Data\Migrations\20210430191900_AddCardsAndGames.cs" />
     <Compile Remove="Data\Migrations\20210430191900_AddCardsAndGames.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210430210148_AddGameUpdates.cs" />
+    <Compile Remove="Data\Migrations\20210430210148_AddGameUpdates.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210430210836_AddTest.cs" />
+    <Compile Remove="Data\Migrations\20210430210836_AddTest.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

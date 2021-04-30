@@ -10,6 +10,6 @@ namespace MemoryBoost.Models
         public Guid Id { get; set; } = new Guid();
         public Guid? GameId { get; set; }
         public Game Game { get; set; }
-
+        public Int32? Check { get; set; }
     }
 }

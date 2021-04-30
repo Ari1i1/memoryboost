@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MemoryBoost.Data;
 using MemoryBoost.Models;
+using MemoryBoost.Services;
 
 namespace MemoryBoost.Controllers
 {
     public class CardsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IRandomNumbersService _randomNumbersService;
 
-        public CardsController(ApplicationDbContext context)
+        public CardsController(ApplicationDbContext context, IRandomNumbersService randomNumbersService)
         {
             _context = context;
+            _randomNumbersService = randomNumbersService;
         }
 
         // GET: Cards
@@ -58,12 +61,13 @@ namespace MemoryBoost.Controllers
             {
                 return this.NotFound();
             }
-
+            var rand = new Random();
             for (int i = 0; i < game.Level.CardsNumber; i++)
             {
                 var card = new Card
                 {
-                    GameId = gameId
+                    GameId = gameId,
+                    Check = _randomNumbersService.GetRandomNumber()
                     //тут картинки будут прикрепляться к карточке
                 };
                 _context.Add(card);
@@ -173,6 +177,60 @@ namespace MemoryBoost.Controllers
         private bool CardExists(Guid id)
         {
             return _context.Cards.Any(e => e.Id == id);
+        }
+
+        public async Task<IActionResult> FlipCard(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var card = await _context.Cards
+                .Include(c => c.Game)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (card == null)
+            {
+                return NotFound();
+            }
+            if (card.Game.NumberOfFlippedCards == 0)
+            {
+                card.Game.NumberOfFlippedCards = 1;
+                await _context.SaveChangesAsync();
+            }
+            if (card.Game.NumberOfFlippedCards == 1)
+            {
+                card.Game.FirstFlippedCardId = card.Id;
+                card.Game.NumberOfFlippedCards += 1;
+                await _context.SaveChangesAsync();
+                var game = await _context.Games
+                    .Include(g => g.Level)
+                    .Include(g => g.Player)
+                    .Include(g => g.Cards)
+                    .FirstOrDefaultAsync(m => m.Id == card.Game.Id);
+
+                return RedirectToAction("Details", "Games", game);
+            }
+            else
+            {
+                var firstCard = await _context.Cards
+                .Include(c => c.Game)
+                .FirstOrDefaultAsync(m => m.Id == card.Game.FirstFlippedCardId);
+
+                if (firstCard.Check == card.Check)
+                {
+                    card.Game.Score += 5;
+                }
+                else
+                {
+                    card.Game.Score -= 2;
+                }
+                card.Game.NumberOfFlippedCards = 0;
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Details", "Games", new { id = card.Game.Id });
+            }
+
+            
         }
     }
 }

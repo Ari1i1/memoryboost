@@ -1,3 +1,4 @@
+using MemoryBoost.Services;
 using MemoryBoost.Data;
 using MemoryBoost.Models;
 using Microsoft.AspNetCore.Builder;
@@ -35,6 +36,7 @@ namespace MemoryBoost
                .AddEntityFrameworkStores<ApplicationDbContext>()
                .AddDefaultTokenProviders();
             services.AddControllersWithViews();
+            services.AddSingleton<IRandomNumbersService, RandomNumbersService>();
             services.AddRazorPages();
         }
 

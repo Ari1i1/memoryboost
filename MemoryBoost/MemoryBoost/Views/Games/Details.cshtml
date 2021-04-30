@@ -39,20 +39,21 @@
             @for (int i = 0; i < Model.Cards.Count/(Model.Cards.Count/2); i++)
             {
                 <div class="row">
-                    @for (int j = 0; j < Model.Cards.Count/(Model.Cards.Count/(Model.Cards.Count/2)); j++)
+                    @foreach (var item in Model.Cards)
                     {
-                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-6 my-5 cardContainer">
+                        <a class="col-lg-1 col-md-1 col-sm-1 col-xs-6 my-5 cardContainer"
+                             asp-area="" asp-controller="Cards" asp-action="FlipCard" asp-route-id="@item.Id">
                             <div class="card">
                                 <div class="front"><h3 class="cardTitle">Flip me!</h3></div>
                                 <div class="back">
                                     <div class="content">
-                                        <h3 class="cardTitle">I was made with CSS3</h3>
+                                        <h3 class="cardTitle">CSS3</h3>
                                         <br />
                                         <p id="happy"></p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     }
                 </div>
             }

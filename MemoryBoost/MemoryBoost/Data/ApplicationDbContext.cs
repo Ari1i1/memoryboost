@@ -16,5 +16,9 @@ namespace MemoryBoost.Data
         public DbSet<GameLevel> GameLevels { get; set; }
         public DbSet<Card> Cards { get; set; }
         public DbSet<Game> Games { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+        }
     }
 }
