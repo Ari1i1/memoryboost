@@ -12,7 +12,6 @@ $(document).ready(function () {
 
     $('.card').click(function () {
             GameStep(this);
-            /*$.get("/Cards/FlipCard", { id: itemId })*/
     });
 
     function GameStep(e) {
@@ -42,6 +41,8 @@ $(document).ready(function () {
             }
             else {
                 $('.card').off('click');
+                var gameId = $('.gameId').val();
+                $.get("/Games/SaveResults", { id: gameId, score: `${ score }`})
             }
         }
     }

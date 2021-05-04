@@ -203,9 +203,9 @@ D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Games\Delete.cshtml.g.cs
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Games\Edit.cshtml.g.cs
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Mockup\Index.cshtml.g.cs
-D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Cards\FlipCard.cshtml.g.cs
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Games\Details.cshtml.g.cs
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\bin\Debug\netcoreapp3.1\Antlr3.Runtime.dll
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\bin\Debug\netcoreapp3.1\System.Web.Optimization.dll
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\bin\Debug\netcoreapp3.1\Microsoft.Web.Infrastructure.dll
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\bin\Debug\netcoreapp3.1\WebGrease.dll
+D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Games\SaveResults.cshtml.g.cs

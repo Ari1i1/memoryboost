@@ -71,11 +71,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Views\Games\Index.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Views\Games\Index.cshtml" />
     <None Include="Views\Mockup\Index.cshtml" />
     <None Include="wwwroot\lib\jquery\dist\jquery.unobtrusive-ajax.js" />
   </ItemGroup>

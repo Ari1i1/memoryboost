@@ -13,6 +13,7 @@
     <div class="my-2 mr-5">
         <a class="text-white px-xl-5 px-lg-5 px-md-4" style="font-size: 20px;">level: @Model.Level.Name</a>
         <input type="hidden" class="numberOfCards" asp-for="@Model.Level.CardsNumber" />
+        <input type="hidden" class="gameId" asp-for="@Model.Id" />
     </div>
 
 </div>
@@ -28,7 +29,9 @@
             <a type="button" class="btn btn-lg btn-block btn-outline px-xl-5 px-lg-5 px-md-4" style="background-color: #59F9CC; color: #806CDD; border-radius: 35px;">pause</a>
         </div>
         <div class="mr-5">
-            <a type="button" class="btn btn-lg btn-block btn-outline text-white px-xl-5 px-lg-5 px-md-4" style="border-color: white; border-radius: 35px;">stop</a>
+            <a type="button" class="btn btn-lg btn-block btn-outline text-white px-xl-5 px-lg-5 px-md-4" 
+               asp-area="" asp-controller="Games" asp-action="SaveResults" asp-route-id ="@Model.Id"
+               style="border-color: white; border-radius: 35px;">stop</a>
         </div>
     </div>
 </div>

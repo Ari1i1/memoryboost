@@ -113,6 +113,27 @@ namespace MemoryBoost.Controllers
             return _context.Games.Any(e => e.Id == id);
         }
 
-        
+       
+        public async Task<IActionResult> SaveResults(String id, Int32 score)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var game = await _context.Games
+                .Include(g => g.Level)
+                .Include(g => g.Player)
+                .FirstOrDefaultAsync(m => m.Id.ToString() == id);
+
+            if (game == null)
+            {
+                return NotFound();
+            }
+
+            game.Score = score;
+            await _context.SaveChangesAsync();
+            return View(game);
+        }
     }
 }
