@@ -15,9 +15,9 @@
                     <div class="col-10">
                         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="font-size: 50px;">MemoryBoost</a>
                         @*<button class="navbar-toggler text-white" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>*@
+                                    aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>*@
                     </div>
                     <div class="col-2 d-flex justify-content-center">
                         <div class="row align-self-center">
@@ -31,15 +31,16 @@
         </nav>
     </header>
     <div class="container d-flex flex-column justify-content-center container-f-buttons">
-                @RenderBody()
+        @RenderBody()
     </div>
     <footer class="footer text-muted">
         <div class="container">
             &copy; 2021 - MemoryBoost
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src=@Url.Content("~/lib/jquery/dist/jquery.js")></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script>src="~/lib/jquery/dist/jquery.unobtrusive-ajax.js"</script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
 </body>

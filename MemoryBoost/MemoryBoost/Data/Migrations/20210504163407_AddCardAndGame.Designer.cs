@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemoryBoost.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210430192114_AddCardsAndGames")]
-    partial class AddCardsAndGames
+    [Migration("20210504163407_AddCardAndGame")]
+    partial class AddCardAndGame
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -92,7 +92,10 @@ namespace MemoryBoost.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("GameId")
+                    b.Property<int?>("Check")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("GameId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -282,7 +285,9 @@ namespace MemoryBoost.Data.Migrations
                 {
                     b.HasOne("MemoryBoost.Models.Game", "Game")
                         .WithMany("Cards")
-                        .HasForeignKey("GameId");
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MemoryBoost.Models.Game", b =>

@@ -21,7 +21,7 @@ namespace MemoryBoost.Controllers
         }
 
         // GET: Games
-        public async Task<IActionResult> Index(Guid? id)
+        public async Task<IActionResult> Index(Guid id)
         {
 
             var applicationDbContext = await _context.Games
@@ -34,7 +34,7 @@ namespace MemoryBoost.Controllers
         }
 
         // GET: Games/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(Guid id)
         {
             if (id == null)
             {
@@ -78,7 +78,7 @@ namespace MemoryBoost.Controllers
         }
 
         // GET: Games/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             if (id == null)
             {

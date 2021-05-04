@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MemoryBoost.Data.Migrations
 {
-    public partial class AddCardsAndGames : Migration
+    public partial class AddCardAndGame : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -38,7 +38,8 @@ namespace MemoryBoost.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    GameId = table.Column<Guid>(nullable: true)
+                    GameId = table.Column<Guid>(nullable: false),
+                    Check = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -48,7 +49,7 @@ namespace MemoryBoost.Data.Migrations
                         column: x => x.GameId,
                         principalTable: "Games",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

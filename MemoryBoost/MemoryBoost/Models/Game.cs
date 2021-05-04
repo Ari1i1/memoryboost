@@ -14,8 +14,5 @@ namespace MemoryBoost.Models
         public ApplicationUser Player { get; set; }
         public Int32? Score { get; set; }
         public ICollection<Card> Cards { get; set; }
-        public Int32? NumberOfFlippedCards { get; set; } = 0;
-        public Guid? FirstFlippedCardId { get; set; }
-
     }
 }

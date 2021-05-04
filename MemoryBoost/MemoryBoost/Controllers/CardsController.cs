@@ -29,7 +29,7 @@ namespace MemoryBoost.Controllers
         }
 
         // GET: Cards/Details/5
-        public async Task<IActionResult> Details(Guid? id)
+        public async Task<IActionResult> Details(Guid id)
         {
             if (id == null)
             {
@@ -47,7 +47,7 @@ namespace MemoryBoost.Controllers
         }
 
         // GET: Cards/Create
-        public async Task<IActionResult> Create(Guid? gameId)
+        public async Task<IActionResult> Create(Guid gameId)
         {
             if (gameId == null)
             {
@@ -95,7 +95,7 @@ namespace MemoryBoost.Controllers
         }
 
         // GET: Cards/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid id)
         {
             if (id == null)
             {
@@ -146,7 +146,7 @@ namespace MemoryBoost.Controllers
         }
 
         // GET: Cards/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             if (id == null)
             {
@@ -177,60 +177,6 @@ namespace MemoryBoost.Controllers
         private bool CardExists(Guid id)
         {
             return _context.Cards.Any(e => e.Id == id);
-        }
-
-        public async Task<IActionResult> FlipCard(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var card = await _context.Cards
-                .Include(c => c.Game)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (card == null)
-            {
-                return NotFound();
-            }
-            if (card.Game.NumberOfFlippedCards == 0)
-            {
-                card.Game.NumberOfFlippedCards = 1;
-                await _context.SaveChangesAsync();
-            }
-            if (card.Game.NumberOfFlippedCards == 1)
-            {
-                card.Game.FirstFlippedCardId = card.Id;
-                card.Game.NumberOfFlippedCards += 1;
-                await _context.SaveChangesAsync();
-                var game = await _context.Games
-                    .Include(g => g.Level)
-                    .Include(g => g.Player)
-                    .Include(g => g.Cards)
-                    .FirstOrDefaultAsync(m => m.Id == card.Game.Id);
-
-                return RedirectToAction("Details", "Games", game);
-            }
-            else
-            {
-                var firstCard = await _context.Cards
-                .Include(c => c.Game)
-                .FirstOrDefaultAsync(m => m.Id == card.Game.FirstFlippedCardId);
-
-                if (firstCard.Check == card.Check)
-                {
-                    card.Game.Score += 5;
-                }
-                else
-                {
-                    card.Game.Score -= 2;
-                }
-                card.Game.NumberOfFlippedCards = 0;
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Details", "Games", new { id = card.Game.Id });
-            }
-
-            
         }
     }
 }

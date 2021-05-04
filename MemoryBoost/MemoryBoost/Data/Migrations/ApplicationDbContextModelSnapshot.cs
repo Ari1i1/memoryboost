@@ -93,7 +93,7 @@ namespace MemoryBoost.Data.Migrations
                     b.Property<int?>("Check")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("GameId")
+                    b.Property<Guid>("GameId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -109,13 +109,7 @@ namespace MemoryBoost.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("FirstFlippedCardId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int>("LevelId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("NumberOfFlippedCards")
                         .HasColumnType("int");
 
                     b.Property<string>("PlayerId")
@@ -289,7 +283,9 @@ namespace MemoryBoost.Data.Migrations
                 {
                     b.HasOne("MemoryBoost.Models.Game", "Game")
                         .WithMany("Cards")
-                        .HasForeignKey("GameId");
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MemoryBoost.Models.Game", b =>

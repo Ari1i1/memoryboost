@@ -12,6 +12,7 @@
     </div>
     <div class="my-2 mr-5">
         <a class="text-white px-xl-5 px-lg-5 px-md-4" style="font-size: 20px;">level: @Model.Level.Name</a>
+        <input type="hidden" class="numberOfCards" asp-for="@Model.Level.CardsNumber" />
     </div>
 
 </div>
@@ -19,7 +20,7 @@
 <div class="row justify-content-between">
     <div>
         <div>
-            <a class="text-white px-xl-5 px-lg-5 px-md-4" style="font-size: 20px;">points: @Model.Score</a>
+            <a class="text-white px-xl-5 px-lg-5 px-md-4 score" style="font-size: 20px;">points: @Model.Score</a>
         </div>
     </div>
     <div class="row my-2">
@@ -36,14 +37,14 @@
     <div style="background-color: rgba(255,255,255,0.5); color: #806CDD; border-radius: 35px;"
          class="container h-100 d-flex flex-column align-self-center justify-content-center">
         <div class="cardWrapper">
-            @for (int i = 0; i < Model.Cards.Count/(Model.Cards.Count/2); i++)
+            @for (int i = 0; i < Model.Cards.Count / (Model.Cards.Count / 2); i++)
             {
                 <div class="row">
                     @foreach (var item in Model.Cards)
                     {
-                        <a class="col-lg-1 col-md-1 col-sm-1 col-xs-6 my-5 cardContainer"
-                             asp-area="" asp-controller="Cards" asp-action="FlipCard" asp-route-id="@item.Id">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-6 my-5 cardContainer" >
                             <div class="card">
+                                <input type="hidden" class="itemCheck" asp-for="@item.Check" />
                                 <div class="front"><h3 class="cardTitle">Flip me!</h3></div>
                                 <div class="back">
                                     <div class="content">
@@ -53,18 +54,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </a>
+                        </div>
                     }
                 </div>
             }
-            @*@foreach (var item in Model)
-                {
-
-                    <a class="btn btn-lg btn-block btn-outline font-weight-bold"
-                       style="border: #806CDD solid 3px; border-radius: 35px; font-size: 30px;">
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </a>
-                }*@
         </div>
     </div>
 </div>
