@@ -208,4 +208,4 @@ D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\bin\Debug\netcoreapp3.1\Antlr3.Runti
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\bin\Debug\netcoreapp3.1\System.Web.Optimization.dll
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\bin\Debug\netcoreapp3.1\Microsoft.Web.Infrastructure.dll
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\bin\Debug\netcoreapp3.1\WebGrease.dll
-D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Games\SaveResults.cshtml.g.cs
+D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Games\Results.cshtml.g.cs

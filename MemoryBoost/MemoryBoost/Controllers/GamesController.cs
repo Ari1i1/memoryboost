@@ -113,14 +113,15 @@ namespace MemoryBoost.Controllers
             return _context.Games.Any(e => e.Id == id);
         }
 
-       
-        public async Task<IActionResult> SaveResults(String id, Int32 score)
+
+        [HttpPost]
+        public async Task<IActionResult> Results(String id, String score)
         {
+            bool success = Int32.TryParse(score, out Int32 s);
             if (id == null)
             {
                 return NotFound();
             }
-
             var game = await _context.Games
                 .Include(g => g.Level)
                 .Include(g => g.Player)
@@ -130,9 +131,11 @@ namespace MemoryBoost.Controllers
             {
                 return NotFound();
             }
-
-            game.Score = score;
-            await _context.SaveChangesAsync();
+            if (success)
+            {
+                game.Score = s;
+                await _context.SaveChangesAsync();
+            }
             return View(game);
         }
     }

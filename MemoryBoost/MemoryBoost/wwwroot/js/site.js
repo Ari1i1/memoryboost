@@ -11,7 +11,7 @@ $(document).ready(function () {
     var score = 0;
 
     $('.card').click(function () {
-            GameStep(this);
+        GameStep(this);
     });
 
     function GameStep(e) {
@@ -33,6 +33,7 @@ $(document).ready(function () {
                 score -= 2;
             }
             jQuery('.score*').html(`points: ${score}`);
+            $('.score').val(score);
             $('.firstFlippedCard').removeClass('firstFlippedCard');
             $('.secondFlippedCard').removeClass('secondFlippedCard');
             if (numberOfFlippedCards < currentLevelCardsNumber) {
@@ -42,7 +43,7 @@ $(document).ready(function () {
             else {
                 $('.card').off('click');
                 var gameId = $('.gameId').val();
-                $.get("/Games/SaveResults", { id: gameId, score: `${ score }`})
+                $.post("/Games/SaveResults", { id: gameId, score: `${score}` })
             }
         }
     }
