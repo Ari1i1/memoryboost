@@ -8,17 +8,24 @@ using Microsoft.EntityFrameworkCore;
 using MemoryBoost.Data;
 using MemoryBoost.Models;
 using MemoryBoost.Services;
+using MemoryBoost.Models.ViewModels;
+using System.IO;
+using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Hosting;
 
 namespace MemoryBoost.Controllers
 {
     public class CardsController : Controller
     {
+        private static readonly HashSet<String> AllowedExtensions = new HashSet<String> { ".jpg", ".jpeg", ".png" };
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly IRandomNumbersService _randomNumbersService;
 
-        public CardsController(ApplicationDbContext context, IRandomNumbersService randomNumbersService)
+        public CardsController(ApplicationDbContext context, IWebHostEnvironment hostingEnvironment, IRandomNumbersService randomNumbersService)
         {
             _context = context;
+            _hostingEnvironment = hostingEnvironment;
             _randomNumbersService = randomNumbersService;
         }
 
@@ -28,53 +35,10 @@ namespace MemoryBoost.Controllers
             return View(await _context.Cards.ToListAsync());
         }
 
-        // GET: Cards/Details/5
-        public async Task<IActionResult> Details(Guid id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var card = await _context.Cards
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (card == null)
-            {
-                return NotFound();
-            }
-
-            return View(card);
-        }
-
         // GET: Cards/Create
-        public async Task<IActionResult> Create(Guid gameId)
+        public IActionResult Create()
         {
-            if (gameId == null)
-            {
-                return NotFound();
-            }
-            var game = await this._context.Games
-                .Include(g => g.Level)
-                .SingleOrDefaultAsync(x => x.Id == gameId);
-
-            if (game == null)
-            {
-                return this.NotFound();
-            }
-            var rand = new Random();
-            for (int i = 0; i < game.Level.CardsNumber; i++)
-            {
-                var card = new Card
-                {
-                    GameId = gameId,
-                    Check = _randomNumbersService.GetRandomNumber()
-                    //тут картинки будут прикрепляться к карточке
-                };
-                _context.Add(card);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToAction("Details", "Games", new { id = game.Id });
+            return View(new CardCreateViewModel());
         }
 
         // POST: Cards/Create
@@ -82,20 +46,37 @@ namespace MemoryBoost.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] Card card)
+        public async Task<IActionResult> Create(CardCreateViewModel model)
         {
+            var fileName = Path.GetFileName(ContentDispositionHeaderValue.Parse(model.FilePath.ContentDisposition).FileName.Value.Trim('"'));
+            var fileExt = Path.GetExtension(fileName);
+
+            if (!AllowedExtensions.Contains(fileExt))
+            {
+                this.ModelState.AddModelError(nameof(model.FilePath), "This file type is prohibited");
+            }
             if (ModelState.IsValid)
             {
-                card.Id = Guid.NewGuid();
+                var card = new Card
+                {
+                    FileName = model.FileName,
+                    RandNum = _randomNumbersService.GetRandomNumber()
+                };
+                var picPath = Path.Combine(_hostingEnvironment.WebRootPath, "pics", card.Id.ToString("N") + fileExt);
+                card.FilePath = $"/pics/{card.Id:N}{fileExt}";
+                using (var fileStream = new FileStream(picPath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.Read))
+                {
+                    await model.FilePath.CopyToAsync(fileStream);
+                }
                 _context.Add(card);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
-            return View(card);
+            return View(model);
         }
 
         // GET: Cards/Edit/5
-        public async Task<IActionResult> Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -115,7 +96,7 @@ namespace MemoryBoost.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id")] Card card)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,FilePath,FileName")] Card card)
         {
             if (id != card.Id)
             {
@@ -146,7 +127,7 @@ namespace MemoryBoost.Controllers
         }
 
         // GET: Cards/Delete/5
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
             {

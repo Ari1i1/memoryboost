@@ -7,7 +7,7 @@ namespace MemoryBoost.Models
 {
     public class Game
     {
-        public Guid Id { get; set; } = new Guid();
+        public Guid Id { get; set; } = Guid.NewGuid();
         public Int32 LevelId { get; set; }
         public GameLevel Level { get; set; }
         public String PlayerId { get; set; }

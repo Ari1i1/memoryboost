@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemoryBoost.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210504163407_AddCardAndGame")]
+    [Migration("20210507173920_AddCardAndGame")]
     partial class AddCardAndGame
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,11 +92,19 @@ namespace MemoryBoost.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("Check")
-                        .HasColumnType("int");
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("GameId")
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("GameId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("RandNum")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -283,11 +291,9 @@ namespace MemoryBoost.Data.Migrations
 
             modelBuilder.Entity("MemoryBoost.Models.Card", b =>
                 {
-                    b.HasOne("MemoryBoost.Models.Game", "Game")
+                    b.HasOne("MemoryBoost.Models.Game", null)
                         .WithMany("Cards")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GameId");
                 });
 
             modelBuilder.Entity("MemoryBoost.Models.Game", b =>

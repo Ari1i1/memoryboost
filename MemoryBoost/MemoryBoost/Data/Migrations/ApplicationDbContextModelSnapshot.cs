@@ -90,11 +90,19 @@ namespace MemoryBoost.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("Check")
-                        .HasColumnType("int");
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("GameId")
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("GameId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("RandNum")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -281,11 +289,9 @@ namespace MemoryBoost.Data.Migrations
 
             modelBuilder.Entity("MemoryBoost.Models.Card", b =>
                 {
-                    b.HasOne("MemoryBoost.Models.Game", "Game")
+                    b.HasOne("MemoryBoost.Models.Game", null)
                         .WithMany("Cards")
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GameId");
                 });
 
             modelBuilder.Entity("MemoryBoost.Models.Game", b =>

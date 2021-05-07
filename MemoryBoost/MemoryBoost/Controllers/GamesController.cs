@@ -8,16 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using MemoryBoost.Data;
 using MemoryBoost.Models;
 using System.Collections.ObjectModel;
+using MemoryBoost.Services;
 
 namespace MemoryBoost.Controllers
 {
     public class GamesController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public GamesController(ApplicationDbContext context)
+        private readonly IRandomNumbersService _randomNumbersService;
+        public GamesController(ApplicationDbContext context, IRandomNumbersService randomNumbersService)
         {
             _context = context;
+            _randomNumbersService = randomNumbersService;
         }
 
         // GET: Games
@@ -45,7 +47,7 @@ namespace MemoryBoost.Controllers
                 .Include(g => g.Level)
                 .Include(g => g.Player)
                 .Include(g => g.Cards)
-                .Where(g => g.Id == id)
+                /*.Where(g => g.Id == id)*/
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (game == null)
             {
@@ -66,15 +68,25 @@ namespace MemoryBoost.Controllers
                 return this.NotFound();
             }
 
-                var game = new Game
+            var randForCard = _randomNumbersService.GetRandomNumber();
+            var cards = await _context.Cards.ToListAsync(); //?????????????
+            var cardCollecttion = new Collection<Card>();
+            foreach (var item in cards)
+            {
+                if (item.RandNum == randForCard)
+                {
+                    cardCollecttion.Add(item);
+                }
+            }
+            var game = new Game
                 {
                     LevelId = levelId,
                     Score = 0,
-                    Cards = new Collection<Card>()
+                    Cards = cardCollecttion
                 };
                 _context.Add(game);
                 await _context.SaveChangesAsync();
-            return RedirectToAction("Create", "Cards", new { gameId = game.Id });
+            return RedirectToAction("Details", new { id = game.Id });
         }
 
         // GET: Games/Delete/5

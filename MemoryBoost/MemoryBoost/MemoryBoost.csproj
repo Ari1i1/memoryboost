@@ -68,6 +68,10 @@
     <Compile Remove="Data\Migrations\20210504162550_AddCardAndGame.Designer.cs" />
     <Compile Remove="Data\Migrations\20210504162907_AddCardAndGame.cs" />
     <Compile Remove="Data\Migrations\20210504162907_AddCardAndGame.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210504163407_AddCardAndGame.cs" />
+    <Compile Remove="Data\Migrations\20210504163407_AddCardAndGame.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210507155215_AddCardAndGame.cs" />
+    <Compile Remove="Data\Migrations\20210507155215_AddCardAndGame.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
