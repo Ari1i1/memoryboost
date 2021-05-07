@@ -5,7 +5,7 @@
 <div class="row align-self-center w-100" style="height: 20vh;">
     <div class="col-2"></div>
     <div class="col-3">
-        <a class="btn btn-lg btn-block btn-outline" 
+        <a class="btn btn-lg btn-block btn-outline"
            asp-area="" asp-controller="GameLevels" asp-action="Index"
            style="background-color: #59F9CC; color: #806CDD; border-radius: 35px; font-size: 30px;">play</a>
     </div>
@@ -23,6 +23,11 @@
             <a class="btn btn-lg btn-block btn-outline text-white"
                style="border-color: white; border-radius: 35px; font-size: 30px;">start trainig</a>
         </div>
+    }
+    @if (User.IsInRole(ApplicationRoles.Administrators))
+    {
+    <a class="btn btn-lg btn-block btn-outline"
+       asp-area="" asp-controller="Cards" asp-action="Create">add pics</a>
     }
     <div class="col-2"></div>
 </div>

@@ -38,8 +38,10 @@ namespace MemoryBoost.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
-                    GameId = table.Column<Guid>(nullable: false),
-                    Check = table.Column<int>(nullable: true)
+                    FilePath = table.Column<string>(nullable: false),
+                    FileName = table.Column<string>(nullable: false),
+                    RandNum = table.Column<int>(nullable: true),
+                    GameId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -49,7 +51,7 @@ namespace MemoryBoost.Data.Migrations
                         column: x => x.GameId,
                         principalTable: "Games",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
