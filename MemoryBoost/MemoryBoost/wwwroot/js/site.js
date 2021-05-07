@@ -5,9 +5,9 @@
 $(document).ready(function () {
     var currentlyFlippedCards = 0;
     var numberOfFlippedCards = 0;
-    var currentLevelCardsNumber = $('.numberOfCards').val();
-    var firstItemCheck = null;
-    var secondItemCheck = null;
+    var currentLevelCardsNumber = $("input[name*='numberOfCards']").val();
+    var firstItemAlt = null;
+    var secondItemAlt = null;
     var score = 0;
 
     $('.card').click(function () {
@@ -19,21 +19,21 @@ $(document).ready(function () {
         currentlyFlippedCards += 1;
         numberOfFlippedCards += 1;
         if (currentlyFlippedCards == 1) {
-            $(e).addClass('firstFlippedItem');
-            firstItemCheck = $('.firstFlippedCard .itemCheck').val();
+            $(e).addClass('firstFlippedCard');
         }
         if (currentlyFlippedCards == 2) {
-            $(e).addClass('secondFlippedItem');
-            secondItemCheck = $('.secondFlippedCard .itemCheck').val();
+            $(e).addClass('secondFlippedCard');
+            firstItemAlt = $('.firstFlippedCard').find('img').attr("alt");
+            secondItemAlt = $('.secondFlippedCard').find('img').attr("alt");
             $('.card').off('click');
-            if (firstItemCheck == secondItemCheck) {
+            if (firstItemAlt == secondItemAlt) {
                 score += 5;
             }
             else {
                 score -= 2;
             }
-            jQuery('.score*').html(`points: ${score}`);
-            $('.score').val(score);
+            jQuery("a[name*='score']").html(`points: ${score}`);
+            $("input[name*='score']").val(score);
             $('.firstFlippedCard').removeClass('firstFlippedCard');
             $('.secondFlippedCard').removeClass('secondFlippedCard');
             if (numberOfFlippedCards < currentLevelCardsNumber) {
@@ -42,7 +42,7 @@ $(document).ready(function () {
             }
             else {
                 $('.card').off('click');
-                var gameId = $('.gameId').val();
+                var gameId = $("input[name*='id']").val();
                 $.post("/Games/SaveResults", { id: gameId, score: `${score}` })
             }
         }
