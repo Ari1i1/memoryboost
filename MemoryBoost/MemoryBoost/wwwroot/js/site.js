@@ -12,11 +12,24 @@ $(document).ready(function () {
     var score = 0;
 
     $('.card').addClass('flipped');
-    setTimeout(Unflip, secForMemorizing*1000);
+    setTimeout(Unflip, secForMemorizing * 1000);
+    sec = secForMemorizing;
+    var tt = setInterval(Countdown, 998);
+
+    function Countdown() {
+        sec--;
+        if (sec < 10) {
+            $('.timer').html(`time left: 00:00:0${sec}`);
+        }
+        else {
+            $('.timer').html(`time left: 00:00:${sec}`);
+        }
+    }
 
     function Unflip() {
         $('.card').removeClass('flipped');
         $('.card').addClass('clickableСard');
+        clearInterval(tt);
         InitTimer();
         $('.clickableСard').click(function () {
             GameStep(this);
@@ -78,7 +91,7 @@ $(document).ready(function () {
 
     function InitTimer() {
         sec = 0;
-        var time = setInterval(TimerTick, 1000);
+        setInterval(TimerTick, 1000);
     }
 
     function TimerTick() {
