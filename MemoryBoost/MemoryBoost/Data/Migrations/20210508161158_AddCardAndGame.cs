@@ -14,7 +14,8 @@ namespace MemoryBoost.Data.Migrations
                     Id = table.Column<Guid>(nullable: false),
                     LevelId = table.Column<int>(nullable: false),
                     PlayerId = table.Column<string>(nullable: true),
-                    Score = table.Column<int>(nullable: true)
+                    Score = table.Column<int>(nullable: true),
+                    Time = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

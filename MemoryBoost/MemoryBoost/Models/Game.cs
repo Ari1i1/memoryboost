@@ -13,6 +13,7 @@ namespace MemoryBoost.Models
         public String PlayerId { get; set; }
         public ApplicationUser Player { get; set; }
         public Int32? Score { get; set; }
-        public ICollection<Card> Cards { get; set; }
+        public String Time { get; set; }
+        public List<Card> Cards { get; set; }
     }
 }

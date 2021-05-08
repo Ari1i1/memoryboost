@@ -47,17 +47,50 @@ namespace MemoryBoost.Controllers
                 .Include(g => g.Level)
                 .Include(g => g.Player)
                 .Include(g => g.Cards)
-                /*.Where(g => g.Id == id)*/
+                .Where(g => g.Id == id)
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (game == null)
             {
                 return NotFound();
             }
 
+            var cardList = new List<Card>();
+            var busyPlacements = new List<Boolean>();
+            for (int i = 0; i < game.Level.CardsNumber; i++)
+            {
+                busyPlacements.Add(false);
+                cardList.Add(null);
+            }
+            var randPlacement = -1;
+            var count = 0;
+
+            foreach (var item in game.Cards)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    if (count < game.Level.CardsNumber)
+                    {
+                        randPlacement = _randomNumbersService.GetRandomPlace(game.Level.CardsNumber);
+                        while (busyPlacements[randPlacement])
+                        {
+                            randPlacement = _randomNumbersService.GetRandomPlace(game.Level.CardsNumber);
+                        }
+                    }
+                    else
+                        break;
+                    busyPlacements[randPlacement] = true;
+                    cardList[randPlacement] = item;
+                    count++;
+                }
+            }
+
+            game.Cards = cardList;
             return View(game);
         }
 
         // GET: Games/Create
+        
         public async Task<IActionResult> Create(Int32 levelId)
         {
             var level = await this._context.GameLevels
@@ -70,20 +103,20 @@ namespace MemoryBoost.Controllers
 
             var randForCard = _randomNumbersService.GetRandomNumber();
             var cards = await _context.Cards.ToListAsync(); //?????????????
-            var cardCollecttion = new Collection<Card>();
+            var cardList = new List<Card>();
             foreach (var item in cards)
             {
                 if (item.RandNum == randForCard)
                 {
-                    cardCollecttion.Add(item);
+                    cardList.Add(item);
                 }
             }
             var game = new Game
                 {
                     LevelId = levelId,
                     Score = 0,
-                    Cards = cardCollecttion
-                };
+                    Cards = cardList
+            };
                 _context.Add(game);
                 await _context.SaveChangesAsync();
             return RedirectToAction("Details", new { id = game.Id });
@@ -127,7 +160,7 @@ namespace MemoryBoost.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Results(String id, String score)
+        public async Task<IActionResult> Results(String id, String score, String timer)
         {
             bool success = Int32.TryParse(score, out Int32 s);
             if (id == null)
@@ -146,6 +179,7 @@ namespace MemoryBoost.Controllers
             if (success)
             {
                 game.Score = s;
+                game.Time = timer;
                 await _context.SaveChangesAsync();
             }
             return View(game);

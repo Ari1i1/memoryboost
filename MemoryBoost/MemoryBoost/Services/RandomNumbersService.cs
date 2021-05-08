@@ -7,7 +7,12 @@ namespace MemoryBoost.Services
         public int GetRandomNumber()
         {
             Random rand = new Random();
-            return rand.Next(1, 5);
+            return rand.Next(1, 1);
+        }
+        public int GetRandomPlace(int numOfPlaces)
+        {
+            Random rand = new Random();
+            return rand.Next(0, numOfPlaces);
         }
     }
 }
