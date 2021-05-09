@@ -7,7 +7,8 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item profile-avatar d-flex justify-content-center mr-2" style="height: 100%;">
-            <a class="align-self-center"> @User.Identity.Name.Substring(0, 1) </a>
+            <a class="align-self-center text-white text-decoration-none"
+               asp-area="" asp-controller="PersonalArea" asp-action="Index"> @User.Identity.Name.Substring(0, 1) </a>
         </li>
         <li class="nav-item">
             <form asp-area="" asp-controller="Account" asp-action="Logout">
@@ -19,7 +20,9 @@
     else
     {
         <li class="nav-item">
-            <a type="button" class="btn btn-lg btn-block btn-outline text-white px-xl-5 px-lg-5 px-md-4" style="border-color: white; border-radius: 35px;" asp-area="Identity" asp-controller="Account" asp-action="Login">log in</a>
+            <a type="button" class="btn btn-lg btn-block btn-outline text-white px-xl-5 px-lg-5 px-md-4" 
+               style="border-color: white; border-radius: 35px;" 
+               asp-area="Identity" asp-controller="Account" asp-action="Login">log in</a>
         </li>
     }
 </ul>

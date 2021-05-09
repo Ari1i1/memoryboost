@@ -9,16 +9,20 @@ using MemoryBoost.Data;
 using MemoryBoost.Models;
 using System.Collections.ObjectModel;
 using MemoryBoost.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MemoryBoost.Controllers
 {
     public class GamesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IRandomNumbersService _randomNumbersService;
-        public GamesController(ApplicationDbContext context, IRandomNumbersService randomNumbersService)
+        public GamesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IRandomNumbersService randomNumbersService)
         {
             _context = context;
+            _userManager = userManager;
             _randomNumbersService = randomNumbersService;
         }
 
@@ -90,7 +94,7 @@ namespace MemoryBoost.Controllers
         }
 
         // GET: Games/Create
-        
+        [AllowAnonymous]
         public async Task<IActionResult> Create(Int32 levelId)
         {
             var level = await this._context.GameLevels
@@ -112,13 +116,20 @@ namespace MemoryBoost.Controllers
                 }
             }
             var game = new Game
-                {
-                    LevelId = levelId,
-                    Score = 0,
-                    Cards = cardList
+            {
+                LevelId = levelId,
+                Score = 0,
+                Cards = cardList
             };
-                _context.Add(game);
-                await _context.SaveChangesAsync();
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var user = await _userManager.GetUserAsync(this.HttpContext.User);
+                game.Player = user;
+            }
+
+            _context.Add(game);
+            await _context.SaveChangesAsync();
             return RedirectToAction("Details", new { id = game.Id });
         }
 
