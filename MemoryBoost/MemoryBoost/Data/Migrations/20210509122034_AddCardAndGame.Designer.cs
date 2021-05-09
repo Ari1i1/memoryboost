@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemoryBoost.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210508161158_AddCardAndGame")]
+    [Migration("20210509122034_AddCardAndGame")]
     partial class AddCardAndGame
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -118,6 +118,9 @@ namespace MemoryBoost.Data.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("LevelId")
                         .HasColumnType("int");

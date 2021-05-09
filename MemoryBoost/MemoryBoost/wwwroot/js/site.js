@@ -12,22 +12,24 @@ $(document).ready(function () {
     var score = 0;
 
     $('.card').addClass('flipped');
+    $("input[name*='pause']").prop('disabled', true);
     setTimeout(Unflip, secForMemorizing * 1000);
-    sec = secForMemorizing;
+    secc = secForMemorizing;
     var tt = setInterval(Countdown, 998);
 
     function Countdown() {
-        sec--;
-        if (sec < 10) {
-            $('.timer').html(`time left: 00:00:0${sec}`);
+        secc--;
+        if (secc < 10) {
+            $('.timer').html(`time left: 00:00:0${secc}`);
         }
         else {
-            $('.timer').html(`time left: 00:00:${sec}`);
+            $('.timer').html(`time left: 00:00:${secc}`);
         }
     }
 
     function Unflip() {
         $('.card').removeClass('flipped');
+        $("input[name*='pause']").prop('disabled', false);
         $('.card').addClass('clickableСard');
         clearInterval(tt);
         InitTimer();
@@ -88,10 +90,12 @@ $(document).ready(function () {
 
     min = 0;
     hour = 0;
+    sec = 0;
+    var t;
 
     function InitTimer() {
-        sec = 0;
-        setInterval(TimerTick, 1000);
+        sec = sec;
+        t = setInterval(TimerTick, 1000);
     }
 
     function TimerTick() {
@@ -104,7 +108,29 @@ $(document).ready(function () {
             hour++;
             min = min - 60;
         }
-        if (sec < 10) { 
+        DisplayTime();
+    }
+
+    count = 0;
+    $("input[name*='pause']").click(function () {
+        count++;
+        if (count % 2 == 1) {
+            DisplayTime();
+            clearInterval(t);
+            $('.cardWrapper').css("opacity", ".3");
+            $('.clickableСard').off('click');
+        }
+        else {
+            $('.cardWrapper').css("opacity", "1");
+            InitTimer();
+            $('.clickableСard').click(function () {
+                GameStep(this);
+            });
+        }
+    });
+
+    function DisplayTime() {
+        if (sec < 10) {
             if (min < 10) {
                 if (hour < 10) {
                     $('.timer').html(`time: 0${hour}:0${min}:0${sec}`);
@@ -142,5 +168,4 @@ $(document).ready(function () {
             }
         }
     }
-
 });

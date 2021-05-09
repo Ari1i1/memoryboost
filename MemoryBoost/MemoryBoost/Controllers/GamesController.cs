@@ -117,6 +117,7 @@ namespace MemoryBoost.Controllers
             }
             var game = new Game
             {
+                Created = DateTime.UtcNow,
                 LevelId = levelId,
                 Score = 0,
                 Cards = cardList
@@ -190,9 +191,13 @@ namespace MemoryBoost.Controllers
             if (success)
             {
                 game.Score = s;
-                game.Time = timer;
-                await _context.SaveChangesAsync();
             }
+            else
+            {
+                game.Score = 0;
+            }
+            game.Time = timer;
+            await _context.SaveChangesAsync();
             return View(game);
         }
     }

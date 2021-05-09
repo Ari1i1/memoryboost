@@ -117,6 +117,9 @@ namespace MemoryBoost.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("LevelId")
                         .HasColumnType("int");
 
