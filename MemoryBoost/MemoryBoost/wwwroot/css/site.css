@@ -73,7 +73,6 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     height: 100%;
-    overflow: auto;
 }
 .background-gradient {
     background: rgb(128, 108, 221);
@@ -310,6 +309,15 @@ h3.cardTitle {
     }
 }
 /* Cards flipping ends */
-.pauseWindow {
-    background-color: rgba(255,255,255,0.5);
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }

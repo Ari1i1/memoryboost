@@ -3,107 +3,109 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="row mb-3">
-    <a class="btn btn-lg btn-outline ml-3 px-xl-5 px-lg-5 px-md-4"
-       style="background-color: #59F9CC; color: #806CDD; border-radius: 35px;">create your personal trainig</a>
-    @if (User.IsInRole(ApplicationRoles.Administrators))
-    {
+<div class="container h-100">
+    <div class="row mb-3">
         <a class="btn btn-lg btn-outline ml-3 px-xl-5 px-lg-5 px-md-4"
-           asp-area="" asp-controller="Cards" asp-action="Create"
-           style="border-color: #806CDD; color: #806CDD; border-radius: 35px;">add pics</a>
-    }
-    <a class="btn btn-lg btn-outline ml-3 px-xl-5 px-lg-5 px-md-4"
-       style="border-color: #806CDD; color: #806CDD; border-radius: 35px;">edit profile</a>
-</div>
-<div class="row">
-    <div class="col-5 d-flex flex-column justify-content-center">
-        <a class="text-white align-self-center mb-2" style="font-size: 20px;">your trainings</a>
-        <div style="background-color: rgba(255,255,255,0.5); border-radius: 35px;"
-             class="container h-100 d-flex flex-column text-black">
-            <table class="">
-                <thead>
-                    <tr>
-                        <th>
-                            training name
-                        </th>
-                        <th>
-                            exercises
-                        </th>
-                        <th>
-
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                training name
-                            </td>
-                            <td>
-                                exercises
-                            </td>
-                            <td>
-                                <a class="btn btn-outline px-xl-5 px-lg-5 px-md-4"
-                                   style="border-color: black; color: black; border-radius: 35px;">start</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+           style="background-color: #59F9CC; color: #806CDD; border-radius: 35px;">create your personal trainig</a>
+        @if (User.IsInRole(ApplicationRoles.Administrators))
+        {
+            <a class="btn btn-lg btn-outline ml-3 px-xl-5 px-lg-5 px-md-4"
+               asp-area="" asp-controller="Cards" asp-action="Create"
+               style="border-color: #806CDD; color: #806CDD; border-radius: 35px;">add pics</a>
+        }
+        <a class="btn btn-lg btn-outline ml-3 px-xl-5 px-lg-5 px-md-4"
+           style="border-color: #806CDD; color: #806CDD; border-radius: 35px;">edit profile</a>
     </div>
-    <div class="col-1"></div>
-    <div class="col-6 d-flex flex-column justify-content-center">
-        <a class="text-white align-self-center mb-2" style="font-size: 20px;">results</a>
-        <div style="background-color: rgba(255,255,255,0.5); border-radius: 35px;"
-             class="container h-100 d-flex flex-column text-black">
-            <table class="">
-                <thead>
-                    <tr>
-                        <th>
-                            Game date
-                        </th>
-                        <th>
-                            game name
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Level)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Time)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Score)
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
+    <div class="row h-75">
+        <div class="col-5 h-100 d-flex flex-column justify-content-center">
+            <a class="text-white align-self-center mb-2" style="font-size: 20px;">your trainings</a>
+            <div style="background-color: rgba(255,255,255,0.5); border-radius: 35px; height: 100%; overflow-x: auto"
+                 class="container d-flex flex-column text-black">
+                <table class="">
+                    <thead>
                         <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Created)
-                            </td>
-                            <td>
-                                game name
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Level.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Time)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Score)
-                            </td>
+                            <th>
+                                training name
+                            </th>
+                            <th>
+                                exercises
+                            </th>
+                            <th>
+
+                            </th>
+                            <th></th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    training name
+                                </td>
+                                <td>
+                                    exercises
+                                </td>
+                                <td>
+                                    <a class="btn btn-outline px-xl-5 px-lg-5 px-md-4"
+                                       style="border-color: black; color: black; border-radius: 35px;">start</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-1 h-100"></div>
+        <div class="col-6 h-100 d-flex flex-column justify-content-center">
+            <a class="text-white align-self-center mb-2" style="font-size: 20px;">results</a>
+            <div style="background-color: rgba(255,255,255,0.5); border-radius: 35px;  height: 100%; overflow-x: auto"
+                 class="container d-flex flex-column text-black">
+                <table class="">
+                    <thead>
+                        <tr>
+                            <th>
+                                Game date
+                            </th>
+                            <th>
+                                game name
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Level)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Time)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Score)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Created)
+                                </td>
+                                <td>
+                                    game name
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Level.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Time)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Score)
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
