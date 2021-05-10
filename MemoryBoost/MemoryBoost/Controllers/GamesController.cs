@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using MemoryBoost.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using MemoryBoost.Models.ViewModels;
 
 namespace MemoryBoost.Controllers
 {
@@ -33,7 +34,7 @@ namespace MemoryBoost.Controllers
             var applicationDbContext = await _context.Games
                 .Include(g => g.Level)
                 .Include(g => g.Player)
-                .Include(g => g.Cards)
+                /*.Include(g => g.Cards)*/
                 .Where(g => g.Id == id).ToListAsync();
   
             return View(applicationDbContext);
@@ -51,6 +52,7 @@ namespace MemoryBoost.Controllers
                 .Include(g => g.Level)
                 .Include(g => g.Player)
                 .Include(g => g.Cards)
+                .ThenInclude(g => g.Card)
                 .Where(g => g.Id == id)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -84,13 +86,21 @@ namespace MemoryBoost.Controllers
                     else
                         break;
                     busyPlacements[randPlacement] = true;
-                    cardList[randPlacement] = item;
+                    cardList[randPlacement] = item.Card;
                     count++;
                 }
             }
 
-            game.Cards = cardList;
-            return View(game);
+            var gameView = new GameViewModel
+            {
+                Id = game.Id,
+                Level = game.Level,
+                Score = game.Score,
+                Time = game.Time,
+                Cards = cardList
+            };
+
+            return View(gameView);
         }
 
         // GET: Games/Create
@@ -105,22 +115,12 @@ namespace MemoryBoost.Controllers
                 return this.NotFound();
             }
 
-            var randForCard = _randomNumbersService.GetRandomNumber();
-            var cards = await _context.Cards.ToListAsync(); //?????????????
-            var cardList = new List<Card>();
-            foreach (var item in cards)
-            {
-                if (item.RandNum == randForCard)
-                {
-                    cardList.Add(item);
-                }
-            }
             var game = new Game
             {
                 Created = DateTime.UtcNow,
                 LevelId = levelId,
                 Score = 0,
-                Cards = cardList
+                Cards = new List<CardGame>()
             };
 
             if (User.Identity.IsAuthenticated)
@@ -131,7 +131,7 @@ namespace MemoryBoost.Controllers
 
             _context.Add(game);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Details", new { id = game.Id });
+            return RedirectToAction("Create", "CardGames", new { gameId = game.Id });
         }
 
         // GET: Games/Delete/5

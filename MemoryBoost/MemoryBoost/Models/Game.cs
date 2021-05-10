@@ -15,6 +15,6 @@ namespace MemoryBoost.Models
         public DateTime Created { get; set; }
         public Int32? Score { get; set; }
         public String Time { get; set; } = "00:00:00";
-        public List<Card> Cards { get; set; }
+        public List<CardGame> Cards { get; set; }
     }
 }

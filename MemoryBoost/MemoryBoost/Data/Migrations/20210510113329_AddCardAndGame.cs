@@ -8,6 +8,20 @@ namespace MemoryBoost.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Cards",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    FilePath = table.Column<string>(nullable: false),
+                    FileName = table.Column<string>(nullable: false),
+                    RandNum = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cards", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Games",
                 columns: table => new
                 {
@@ -34,32 +48,6 @@ namespace MemoryBoost.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "Cards",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    FilePath = table.Column<string>(nullable: false),
-                    FileName = table.Column<string>(nullable: false),
-                    RandNum = table.Column<int>(nullable: true),
-                    GameId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cards", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cards_Games_GameId",
-                        column: x => x.GameId,
-                        principalTable: "Games",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Cards_GameId",
-                table: "Cards",
-                column: "GameId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Games_LevelId",

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemoryBoost.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210509122034_AddCardAndGame")]
-    partial class AddCardAndGame
+    [Migration("20210510113516_AddCardGames")]
+    partial class AddCardGames
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -100,17 +100,27 @@ namespace MemoryBoost.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("GameId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<int?>("RandNum")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.ToTable("Cards");
+                });
+
+            modelBuilder.Entity("MemoryBoost.Models.CardGame", b =>
+                {
+                    b.Property<Guid>("CardId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("GameId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("CardId", "GameId");
+
                     b.HasIndex("GameId");
 
-                    b.ToTable("Cards");
+                    b.ToTable("CardGames");
                 });
 
             modelBuilder.Entity("MemoryBoost.Models.Game", b =>
@@ -295,11 +305,19 @@ namespace MemoryBoost.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("MemoryBoost.Models.Card", b =>
+            modelBuilder.Entity("MemoryBoost.Models.CardGame", b =>
                 {
-                    b.HasOne("MemoryBoost.Models.Game", null)
-                        .WithMany("Cards")
-                        .HasForeignKey("GameId");
+                    b.HasOne("MemoryBoost.Models.Card", "Card")
+                        .WithMany()
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MemoryBoost.Models.Game", "Game")
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("MemoryBoost.Models.Game", b =>
