@@ -4,40 +4,56 @@
     ViewData["Title"] = "Details";
 }
 
+@*@for (int i = 0; i < Model.Training.Games.Count; i++)
+{
+    @if (Model.Training.Games[i].NumInQueue == Model.NumInQueue)
+    {
+        <form name="next" asp-controller="Games" asp-action="Details">
+            <input type="hidden" name="nextGame" asp-for="@Model.Training.Games[i+1].Id" />
+        </form>
+    }
+}
+*@
 @using (Html.BeginForm("Results", "Games"))
 {
-    <div class="row justify-content-between">
-        <div>
+        <div class="row justify-content-between">
             <div>
-                <a class="text-white px-xl-5 px-lg-5 px-md-4 timer" style="font-size: 20px;">time left: 00:00:@Model.Level.SecForMemorizing</a>
-                <input type="hidden" name="timer" value="" />
+                <div>
+                    <a class="text-white px-xl-5 px-lg-5 px-md-4 timer" style="font-size: 20px;">time left: 00:00:@Model.Level.SecForMemorizing</a>
+                    <input type="hidden" name="timer" value="" />
+                </div>
+            </div>
+            @if (Model.Training != null)
+            {
+                <div class="my-2 mr-5">
+                    <a class="text-white px-xl-5 px-lg-5 px-md-4" style="font-size: 20px;">training: @Model.Training.Name</a>
+                </div>
+            }
+            <div class="my-2 mr-5">
+                <a class="text-white px-xl-5 px-lg-5 px-md-4" style="font-size: 20px;">level: @Model.Level.Name</a>
+                <input type="hidden" name="numberOfCards" asp-for="@Model.Level.CardsNumber" />
+                <input type="hidden" name="secForMemorizing" asp-for="@Model.Level.SecForMemorizing" />
             </div>
         </div>
-        <div class="my-2 mr-5">
-            <a class="text-white px-xl-5 px-lg-5 px-md-4" style="font-size: 20px;">level: @Model.Level.Name</a>
-            <input type="hidden" name="numberOfCards" asp-for="@Model.Level.CardsNumber" />
-            <input type="hidden" name="secForMemorizing" asp-for="@Model.Level.SecForMemorizing" />
-        </div>
-    </div>
-    <div class="row justify-content-between">
-        <div>
+        <div class="row justify-content-between">
             <div>
-                <a class="text-white px-xl-5 px-lg-5 px-md-4" name="score" style="font-size: 20px;">points: @Model.Score</a>
+                <div>
+                    <a class="text-white px-xl-5 px-lg-5 px-md-4" name="score" style="font-size: 20px;">points: 0</a>
+                </div>
+            </div>
+            <div class="row my-2">
+                <div class="mr-2">
+                    <input name="pause" value="pause" type="button" class="btn btn-lg btn-block btn-outline px-xl-5 px-lg-5 px-md-4"
+                           style="background-color: #59F9CC; color: #806CDD; border-radius: 35px;" />
+                </div>
+                <div class="mr-5">
+                    <input type="hidden" name="score" value="" />
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <input type="submit" class="btn btn-lg btn-block btn-outline text-white px-xl-5 px-lg-5 px-md-4" value="stop"
+                           style="border-color: white; border-radius: 35px;" />
+                </div>
             </div>
         </div>
-        <div class="row my-2">
-            <div class="mr-2">
-                <input name="pause" value="pause" type="button" class="btn btn-lg btn-block btn-outline px-xl-5 px-lg-5 px-md-4" 
-                       style="background-color: #59F9CC; color: #806CDD; border-radius: 35px;"/>
-            </div>
-            <div class="mr-5">
-                <input type="hidden" name="score" value="" />
-                <input type="hidden" name="id" value="@Model.Id" />
-                <input type="submit" class="btn btn-lg btn-block btn-outline text-white px-xl-5 px-lg-5 px-md-4" value="stop"
-                       style="border-color: white; border-radius: 35px;" />
-            </div>
-        </div>
-    </div>
 }
 
 <div class="row">

@@ -3,24 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MemoryBoost.Data.Migrations
 {
-    public partial class AddCardAndGame : Migration
+    public partial class AddGame : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Cards",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false),
-                    FilePath = table.Column<string>(nullable: false),
-                    FileName = table.Column<string>(nullable: false),
-                    RandNum = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cards", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Games",
                 columns: table => new
@@ -62,9 +48,6 @@ namespace MemoryBoost.Data.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Cards");
-
             migrationBuilder.DropTable(
                 name: "Games");
         }

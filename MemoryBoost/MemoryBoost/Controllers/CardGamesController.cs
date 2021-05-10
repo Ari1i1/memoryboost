@@ -49,48 +49,85 @@ namespace MemoryBoost.Controllers
         }
 
         // GET: CardGames/Create
-        public async Task<IActionResult> Create(Guid gameId)
+        public async Task<IActionResult> Create(Guid gameId, Guid trainingId)
         {
-            if (gameId == null)
-            {
-                return NotFound();
-            }
+            /* if (gameId == null || trainingId == null)
+             {
+                 return NotFound();
+             }*/
 
             var game = await _context.Games
                 .Include(g => g.Cards)
                 .SingleOrDefaultAsync(x => x.Id == gameId);
 
-            if (game == null)
+            var training = await _context.Trainings
+                .Include(g => g.Games)
+                .SingleOrDefaultAsync(x => x.Id == trainingId);
+
+            /*if (game == null)
             {
                 return NotFound();
-            }
-
-            var randForCard = _randomNumbersService.GetRandomNumber();
-            var cards = await _context.Cards
-                .ToListAsync(); 
-            var cardList = new List<Card>();
-            foreach (var item in cards)
+            }*/
+            if (game != null)
             {
-                if (item.RandNum == randForCard)
+                var randForCard = _randomNumbersService.GetRandomNumber();
+                var cards = await _context.Cards
+                    .ToListAsync();
+                var cardList = new List<Card>();
+                foreach (var item in cards)
                 {
-                    cardList.Add(item);
+                    if (item.RandNum == randForCard)
+                    {
+                        cardList.Add(item);
+                    }
+                }
+                if (ModelState.IsValid)
+                {
+                    foreach (var item in cardList)
+                    {
+                        var cardGame = new CardGame
+                        {
+                            Game = game,
+                            Card = item
+                        };
+                        _context.Add(cardGame);
+                    }
+                    await _context.SaveChangesAsync();
+                    return this.RedirectToAction("Details", "Games", new { id = game.Id });
                 }
             }
-            if (ModelState.IsValid)
+            else
             {
-                foreach (var item in cardList)
+                foreach (var g in training.Games)
                 {
-                    var cardGame = new CardGame
+                    var randForCard = _randomNumbersService.GetRandomNumber();
+                    var cards = await _context.Cards
+                        .ToListAsync();
+                    var cardList = new List<Card>();
+                    foreach (var item in cards)
                     {
-                        Game = game,
-                        Card = item
-                    };
-                    _context.Add(cardGame);
+                        if (item.RandNum == randForCard)
+                        {
+                            cardList.Add(item);
+                        }
+                    }
+                    if (ModelState.IsValid)
+                    {
+                        foreach (var item in cardList)
+                        {
+                            var cardGame = new CardGame
+                            {
+                                Game = g,
+                                Card = item
+                            };
+                            _context.Add(cardGame);
+                        }
+                    }
                 }
                 await _context.SaveChangesAsync();
-                return this.RedirectToAction("Details", "Games", new { id = game.Id });
+                return this.RedirectToAction("Details", "Trainings", new { id = training.Id });
             }
-            return View(); ///////////////
+            return View();///////
         }
 
 

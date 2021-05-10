@@ -68,7 +68,7 @@ namespace MemoryBoost
             var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
             var gameLevels = context.GameLevels;
 
-            var firstLevel = await gameLevels.FindAsync(10);
+            var firstLevel = await gameLevels.FindAsync(1);
             if (firstLevel == null)
             {
                 var firstLevelResult = new GameLevel
@@ -80,7 +80,7 @@ namespace MemoryBoost
                 context.Add(firstLevelResult);
                 await context.SaveChangesAsync();
             }
-            var secondLevel = await gameLevels.FindAsync(11);
+            var secondLevel = await gameLevels.FindAsync(2);
             if (secondLevel == null)
             {
                 var secondLevelResult = new GameLevel
@@ -92,7 +92,7 @@ namespace MemoryBoost
                 context.Add(secondLevelResult);
                 await context.SaveChangesAsync();
             }
-            var thirdLevel = await gameLevels.FindAsync(12);
+            var thirdLevel = await gameLevels.FindAsync(3);
             if (thirdLevel == null)
             {
                 var thirdLevelResult = new GameLevel

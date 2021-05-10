@@ -70,8 +70,14 @@ $(document).ready(function () {
                 NextStep();
             }
             else {
-                $('.clickableСard').off('click');
+                $('.clickableСard').off('click');        
                 setTimeout("$('form').submit();", 1000);
+               
+                    /*nextGame = $("input[name*='nextGame']").val();
+                    setTimeout(Submit, 1000);*/
+                    /*timer = $("input[name*='timer']").val();
+                    $.post("/Games/SaveResults", { id: gameId, score: `${score}`, timer: `${timer}` });*/
+               
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MemoryBoost.Models.Game>
+﻿@model MemoryBoost.Models.ViewModels.PersonalAreaViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -6,6 +6,7 @@
 <div class="container h-100">
     <div class="row mb-3">
         <a class="btn btn-lg btn-outline ml-3 px-xl-5 px-lg-5 px-md-4"
+           asp-area="" asp-controller="Trainings" asp-action="Create"
            style="background-color: #59F9CC; color: #806CDD; border-radius: 35px;">create your personal trainig</a>
         @if (User.IsInRole(ApplicationRoles.Administrators))
         {
@@ -37,14 +38,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.Trainings)
                         {
                             <tr>
                                 <td>
-                                    training name
+                                    @Html.DisplayFor(modelItem => item.Name)
                                 </td>
                                 <td>
-                                    exercises
+                                    @foreach (var modelItem in item.Games)
+                                    {
+                                        
+                                        @Html.DisplayFor(m => modelItem.Level.Name)
+                                        <br>
+                                    }
                                 </td>
                                 <td>
                                     <a class="btn btn-outline px-xl-5 px-lg-5 px-md-4"
@@ -71,19 +77,19 @@
                                 game name
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Level)
+                                Level
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Time)
+                                Time
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Score)
+                                Score
                             </th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.Games)
                         {
                             <tr>
                                 <td>

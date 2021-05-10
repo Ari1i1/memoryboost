@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MemoryBoost.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210510113516_AddCardGames")]
-    partial class AddCardGames
+    [Migration("20210510124650_AddCard")]
+    partial class AddCard
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -106,51 +106,6 @@ namespace MemoryBoost.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cards");
-                });
-
-            modelBuilder.Entity("MemoryBoost.Models.CardGame", b =>
-                {
-                    b.Property<Guid>("CardId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("GameId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("CardId", "GameId");
-
-                    b.HasIndex("GameId");
-
-                    b.ToTable("CardGames");
-                });
-
-            modelBuilder.Entity("MemoryBoost.Models.Game", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("LevelId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PlayerId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int?>("Score")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Time")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LevelId");
-
-                    b.HasIndex("PlayerId");
-
-                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("MemoryBoost.Models.GameLevel", b =>
@@ -303,34 +258,6 @@ namespace MemoryBoost.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("MemoryBoost.Models.CardGame", b =>
-                {
-                    b.HasOne("MemoryBoost.Models.Card", "Card")
-                        .WithMany()
-                        .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MemoryBoost.Models.Game", "Game")
-                        .WithMany()
-                        .HasForeignKey("GameId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("MemoryBoost.Models.Game", b =>
-                {
-                    b.HasOne("MemoryBoost.Models.GameLevel", "Level")
-                        .WithMany()
-                        .HasForeignKey("LevelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MemoryBoost.Models.ApplicationUser", "Player")
-                        .WithMany()
-                        .HasForeignKey("PlayerId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

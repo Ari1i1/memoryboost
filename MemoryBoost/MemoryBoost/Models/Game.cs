@@ -16,5 +16,7 @@ namespace MemoryBoost.Models
         public Int32? Score { get; set; }
         public String Time { get; set; } = "00:00:00";
         public List<CardGame> Cards { get; set; }
+        public Training Training { get; set; }
+        public Int32? NumInQueue { get; set; }
     }
 }
