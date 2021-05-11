@@ -42,15 +42,39 @@ namespace MemoryBoost.Controllers
                 return NotFound();
             }
 
-            var training = await _context.Trainings
+            var trainings = await _context.Trainings
                 .Include(t => t.Games)
                 .ThenInclude(g => g.Cards)
                 .Include(t => t.Player)
                 .FirstOrDefaultAsync(m => m.PlayerId == id);
 
-            if (training == null)
+            if (trainings == null)
             {
                 return RedirectToAction("Create");
+            }
+            else
+            {
+ //если несколько тренировок то выбор иначе нет и если после только создания попадаем
+              return RedirectToAction("Index");
+
+            }
+        }
+        public async Task<IActionResult> ChooseTraining(Guid id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var training = await _context.Trainings
+                .Include(t => t.Games)
+                .ThenInclude(g => g.Cards)
+                .Include(t => t.Player)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (training == null)
+            {
+                return NotFound();
             }
             else
             {
@@ -58,13 +82,12 @@ namespace MemoryBoost.Controllers
                 {
                     if (item.NumInQueue == 1)
                     {
-                        return RedirectToAction("Details", "Games", new { id = item.Id});
+                        return RedirectToAction("Details", "Games", new { id = item.Id });
                     }
                 }
             }
-            return View(); /////////////////////////////////////////////////////////
+            return NotFound();
         }
-
         // GET: Trainings/Create
         public IActionResult Create()
         {
@@ -78,6 +101,10 @@ namespace MemoryBoost.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(TrainingCreateViewModel model)
         {
+            if (model.NumOfLevelOneGame + model.NumOfLevelTwoGame + model.NumOfLevelThreeGame > 20 || model.NumOfLevelOneGame + model.NumOfLevelTwoGame + model.NumOfLevelThreeGame < 1)
+            {
+                ModelState.AddModelError("NumOfLevelThreeGame", "The number of games in the training must be from 1 to 20");
+            }
             if (ModelState.IsValid)
             {
                 var user = await _userManager.GetUserAsync(this.HttpContext.User);
@@ -193,7 +220,8 @@ namespace MemoryBoost.Controllers
                 return NotFound();
             }
             var training = await _context.Trainings
-                .Include(g => g.Games)
+                .Include(t => t.Games)
+                .ThenInclude(g => g.Level)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (training == null)

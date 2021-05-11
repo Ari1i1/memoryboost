@@ -4,44 +4,42 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>Training</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumOfLevelOneGame" class="control-label"></label>
-                <input asp-for="NumOfLevelOneGame" class="form-control" />
-                <span asp-validation-for="NumOfLevelOneGame" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumOfLevelTwoGame" class="control-label"></label>
-                <input asp-for="NumOfLevelTwoGame" class="form-control" />
-                <span asp-validation-for="NumOfLevelTwoGame" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NumOfLevelThreeGame" class="control-label"></label>
-                <input asp-for="NumOfLevelThreeGame" class="form-control" />
-                <span asp-validation-for="NumOfLevelThreeGame" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div style="background-color: #59F9CC; color: #806CDD; border-radius: 35px; border: #806CDD solid 3px;"
+     class="container d-flex flex-column w-50 h-75 align-self-center justify-content-center">
+    <div class="row justify-content-center">
+        <a class="btn font-weight-bold ml-5" style="font-size: 30px;">create your training</a>
+        <a class="font-weight-bold ml-5 mb-2 align-self-end text-decoration-none" style="color: #806CDD; font-size: 30px;"
+           asp-controller="PersonalArea" asp-action="Index">x</a>
     </div>
+    <form asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label class="control-label">name</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">number of "the easy one" games</label>
+            <input asp-for="NumOfLevelOneGame" type="number" class="form-control" />
+            <span asp-validation-for="NumOfLevelOneGame" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">number of "try yourself" games</label>
+            <input asp-for="NumOfLevelTwoGame" type="number" class="form-control" />
+            <span asp-validation-for="NumOfLevelTwoGame" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label class="control-label">number of "hardcore" games</label>
+            <input asp-for="NumOfLevelThreeGame" type="number" class="form-control" />
+            <span asp-validation-for="NumOfLevelThreeGame" class="text-danger"></span>
+        </div>
+        <div class="form-group d-flex justify-content-center">
+            <input type="submit" value="create" class="btn btn-outline font-weight-bold my-2"
+                   style="border: #806CDD solid 3px; border-radius: 35px; color: #806CDD; font-size: 30px;" />
+        </div>
+    </form>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

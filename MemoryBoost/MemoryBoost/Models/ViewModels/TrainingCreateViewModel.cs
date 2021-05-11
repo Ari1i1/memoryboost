@@ -9,10 +9,16 @@ namespace MemoryBoost.Models.ViewModels
     public class TrainingCreateViewModel
     {
         [Required]
-        [MaxLength(200)]
+        [MaxLength(11)]
         public String Name { get; set; }
+        [Required]
+        [Range(0, 20)]
         public Int32? NumOfLevelOneGame { get; set; }
+        [Required]
+        [Range(0, 20)]
         public Int32? NumOfLevelTwoGame { get; set; }
+        [Required]
+        [Range(0, 20)]
         public Int32? NumOfLevelThreeGame { get; set; }
     }
 }

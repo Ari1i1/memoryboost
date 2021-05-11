@@ -128,6 +128,7 @@ namespace MemoryBoost.Controllers
                 {
                     Created = DateTime.UtcNow,
                     LevelId = levelId,
+                    Time = "00:00:00",
                     Score = 0,
                     Cards = new List<CardGame>()
                 };
@@ -238,7 +239,7 @@ namespace MemoryBoost.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Results(String id, String score, String timer)
+        public async Task<IActionResult> Results(String id, String score, String timer, String flag)
         {
             bool success = Int32.TryParse(score, out Int32 s);
             if (id == null)
@@ -274,13 +275,20 @@ namespace MemoryBoost.Controllers
                 }
                 else
                 {
-                    int i = 0;
-                    for (i = 0; i < game.Training.Games.Count; i++)
+                    if (flag == "UserStopped")
                     {
-                        if (game.Training.Games[i].NumInQueue == (game.NumInQueue + 1))
-                            break;
+                        return RedirectToAction("Results", "Trainings", new { id = game.Training.Id });
                     }
-                    return RedirectToAction("Details", "Games", new { id = game.Training.Games[i].Id });
+                    else
+                    {
+                        int i = 0;
+                        for (i = 0; i < game.Training.Games.Count; i++)
+                        {
+                            if (game.Training.Games[i].NumInQueue == (game.NumInQueue + 1))
+                                break;
+                        }
+                        return RedirectToAction("Details", "Games", new { id = game.Training.Games[i].Id });
+                    }
                 }
             }
             else

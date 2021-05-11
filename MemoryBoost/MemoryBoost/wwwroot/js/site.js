@@ -70,6 +70,7 @@ $(document).ready(function () {
                 NextStep();
             }
             else {
+                $("input[name*='flag']").val("flag");
                 $('.clickableСard').off('click');        
                 setTimeout("$('form').submit();", 1000);
                
