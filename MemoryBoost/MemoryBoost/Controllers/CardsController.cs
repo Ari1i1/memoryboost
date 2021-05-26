@@ -29,12 +29,6 @@ namespace MemoryBoost.Controllers
             _randomNumbersService = randomNumbersService;
         }
 
-        // GET: Cards
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Cards.ToListAsync());
-        }
-
         // GET: Cards/Create
         public IActionResult Create()
         {
@@ -75,7 +69,7 @@ namespace MemoryBoost.Controllers
             return View(model);
         }
 
-        // GET: Cards/Edit/5
+        /*// GET: Cards/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -153,11 +147,7 @@ namespace MemoryBoost.Controllers
             _context.Cards.Remove(card);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
+        }*/
 
-        private bool CardExists(Guid id)
-        {
-            return _context.Cards.Any(e => e.Id == id);
-        }
     }
 }

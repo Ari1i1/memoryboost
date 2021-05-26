@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using MemoryBoost.Data;
 using MemoryBoost.Models;
 using MemoryBoost.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MemoryBoost.Controllers
 {
+    [Authorize]
     public class CardGamesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -21,41 +23,10 @@ namespace MemoryBoost.Controllers
             _randomNumbersService = randomNumbersService;
         }
 
-        // GET: CardGames
-        public async Task<IActionResult> Index()
-        {
-            var applicationDbContext = _context.CardGames.Include(c => c.Card).Include(c => c.Game);
-            return View(await applicationDbContext.ToListAsync());
-        }
-
-        // GET: CardGames/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cardGame = await _context.CardGames
-                .Include(c => c.Card)
-                .Include(c => c.Game)
-                .FirstOrDefaultAsync(m => m.CardId == id);
-            if (cardGame == null)
-            {
-                return NotFound();
-            }
-
-            return View(cardGame);
-        }
-
         // GET: CardGames/Create
+        [AllowAnonymous]
         public async Task<IActionResult> Create(Guid gameId, Guid trainingId)
         {
-            /* if (gameId == null || trainingId == null)
-             {
-                 return NotFound();
-             }*/
-
             var game = await _context.Games
                 .Include(g => g.Cards)
                 .SingleOrDefaultAsync(x => x.Id == gameId);
@@ -64,10 +35,6 @@ namespace MemoryBoost.Controllers
                 .Include(g => g.Games)
                 .SingleOrDefaultAsync(x => x.Id == trainingId);
 
-            /*if (game == null)
-            {
-                return NotFound();
-            }*/
             if (game != null)
             {
                 var randForCard = _randomNumbersService.GetRandomNumber();
@@ -93,14 +60,13 @@ namespace MemoryBoost.Controllers
                         _context.Add(cardGame);
                     }
                     await _context.SaveChangesAsync();
-                    return this.RedirectToAction("Details", "Games", new { id = game.Id });
+                    return this.RedirectToAction("Display", "Games", new { id = game.Id });
                 }
             }
             else
             {
                 Int32? numOfGamesInTraining = training.NumOfLevelOneGame + training.NumOfLevelTwoGame + training.NumOfLevelThreeGame;
                 List<Game> JustCreatedGames = (List<Game>)training.Games.OrderByDescending(x => x.Created).ToList();
-                /*JustCreatedGames.OrderByDescending(x => x.Created).ToList();*/
                     
                 foreach (var g in JustCreatedGames.Take((int)numOfGamesInTraining))
                 {
@@ -133,97 +99,6 @@ namespace MemoryBoost.Controllers
             }
             return View();///////
         }
-
-
-        // GET: CardGames/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cardGame = await _context.CardGames.FindAsync(id);
-            if (cardGame == null)
-            {
-                return NotFound();
-            }
-            ViewData["CardId"] = new SelectList(_context.Cards, "Id", "FileName", cardGame.CardId);
-            ViewData["GameId"] = new SelectList(_context.Games, "Id", "Id", cardGame.GameId);
-            return View(cardGame);
-        }
-
-        // POST: CardGames/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("CardId,GameId")] CardGame cardGame)
-        {
-            if (id != cardGame.CardId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(cardGame);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CardGameExists(cardGame.CardId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["CardId"] = new SelectList(_context.Cards, "Id", "FileName", cardGame.CardId);
-            ViewData["GameId"] = new SelectList(_context.Games, "Id", "Id", cardGame.GameId);
-            return View(cardGame);
-        }
-
-        // GET: CardGames/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var cardGame = await _context.CardGames
-                .Include(c => c.Card)
-                .Include(c => c.Game)
-                .FirstOrDefaultAsync(m => m.CardId == id);
-            if (cardGame == null)
-            {
-                return NotFound();
-            }
-
-            return View(cardGame);
-        }
-
-        // POST: CardGames/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            var cardGame = await _context.CardGames.FindAsync(id);
-            _context.CardGames.Remove(cardGame);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool CardGameExists(Guid id)
-        {
-            return _context.CardGames.Any(e => e.CardId == id);
-        }
+        
     }
 }

@@ -24,20 +24,12 @@ namespace MemoryBoost.Controllers
         }
 
         // GET: Trainings
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Trainings.Include(t => t.Player);
-            return View(await applicationDbContext.ToListAsync());
-        }
-
-        // GET: Trainings/Details/5
-        [Authorize]
-        public async Task<IActionResult> Details()
-        {
             var user = await _userManager.GetUserAsync(this.HttpContext.User);
-            var id = user.Id;
 
-            if (id == null)
+            if (user.Id == null)
             {
                 return NotFound();
             }
@@ -46,7 +38,7 @@ namespace MemoryBoost.Controllers
                 .Include(t => t.Games)
                 .ThenInclude(g => g.Cards)
                 .Include(t => t.Player)
-                .FirstOrDefaultAsync(m => m.PlayerId == id);
+                .FirstOrDefaultAsync(m => m.PlayerId == user.Id);
 
             if (trainings == null)
             {
@@ -54,11 +46,13 @@ namespace MemoryBoost.Controllers
             }
             else
             {
- //если несколько тренировок то выбор иначе нет и если после только создания попадаем
-              return RedirectToAction("Index");
+                var applicationDbContext = _context.Trainings.Include(t => t.Player);
+                return View(await applicationDbContext.ToListAsync());
 
             }
         }
+
+        // GET: Trainings/Start/5
         public async Task<IActionResult> Start(Guid trainingId)
         {
             var user = await _userManager.GetUserAsync(this.HttpContext.User);
@@ -90,43 +84,14 @@ namespace MemoryBoost.Controllers
             {
                 if (item.NumInQueue == 1)
                 {
-                    return RedirectToAction("Details", "Games", new { id = item.Id });
+                    return RedirectToAction("Display", "Games", new { id = item.Id });
                 }
             }
 
             return RedirectToAction("Index"); /////////////////
 
         }
-        public async Task<IActionResult> ChooseTraining(Guid id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var training = await _context.Trainings
-                .Include(t => t.Games)
-                .ThenInclude(g => g.Cards)
-                .Include(t => t.Player)
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (training == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return RedirectToAction("Create", "Games", new { trainingId = training.Id });
-                /*foreach (var item in training.Games)
-                {
-                    if (item.NumInQueue == 1)
-                    {
-                        return RedirectToAction("Details", "Games", new { id = item.Id });
-                    }
-                }*/
-            }
-            return NotFound();
-        }
         // GET: Trainings/Create
         public IActionResult Create()
         {

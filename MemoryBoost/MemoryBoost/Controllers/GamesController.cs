@@ -15,6 +15,7 @@ using MemoryBoost.Models.ViewModels;
 
 namespace MemoryBoost.Controllers
 {
+    [Authorize]
     public class GamesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -27,21 +28,9 @@ namespace MemoryBoost.Controllers
             _randomNumbersService = randomNumbersService;
         }
 
-        // GET: Games
-        public async Task<IActionResult> Index(Guid id)
-        {
-
-            var applicationDbContext = await _context.Games
-                .Include(g => g.Level)
-                .Include(g => g.Player)
-                .Include(g => g.Cards)
-                .Where(g => g.Id == id).ToListAsync();
-
-            return View(applicationDbContext);
-        }
-
-        // GET: Games/Details/5
-        public async Task<IActionResult> Details(Guid id)
+        // GET: Games/Display/5
+        [AllowAnonymous]
+        public async Task<IActionResult> Display(Guid id)
         {
             if (id == null)
             {
@@ -116,11 +105,6 @@ namespace MemoryBoost.Controllers
             var training = await this._context.Trainings
                 .Include(t => t.Games)
                 .SingleOrDefaultAsync(x => x.Id == trainingId);
-
-            /*if (level == null || training == null)
-            {
-                return this.NotFound();
-            }*/
 
             if (level != null)
             {
@@ -284,8 +268,6 @@ namespace MemoryBoost.Controllers
                 Int32? numOfGamesInTraining = game.Training.NumOfLevelOneGame + game.Training.NumOfLevelTwoGame + game.Training.NumOfLevelThreeGame;
                 List<Game> JustCreatedGames = (List<Game>)game.Training.Games.OrderByDescending(x => x.Created).ToList();
 
-                /*  foreach (var item in JustCreatedGames.Take((int)numOfGamesInTraining))*/
-
                 if (game.NumInQueue == numOfGamesInTraining || flag == "UserStopped")
                 {
                     return RedirectToAction("Results", "Trainings", new { id = game.Training.Id });
@@ -296,10 +278,9 @@ namespace MemoryBoost.Controllers
                     {
                         if (item.NumInQueue == (game.NumInQueue + 1))
                         {
-                            return RedirectToAction("Details", "Games", new { id = item.Id });
+                            return RedirectToAction("Display", "Games", new { id = item.Id });
                         }
                     }
-                    /*return RedirectToAction("Details", "Games", new { id = item.Id });*/
                     return View(game);//////////
                 }
             }

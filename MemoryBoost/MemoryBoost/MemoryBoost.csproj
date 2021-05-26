@@ -97,7 +97,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Mockup\Index.cshtml" />
     <None Include="wwwroot\lib\jquery\dist\jquery.unobtrusive-ajax.js" />
   </ItemGroup>
 
