@@ -70,7 +70,8 @@ $(document).ready(function () {
                 NextStep();
             }
             else {
-                $('.clickableСard').off('click');
+                $("input[name*='flag']").val("flag");
+                $('.clickableСard').off('click');        
                 setTimeout("$('form').submit();", 1000);
             }
         }

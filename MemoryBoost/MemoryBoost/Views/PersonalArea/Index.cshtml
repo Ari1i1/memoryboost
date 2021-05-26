@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MemoryBoost.Models.Game>
+﻿@model MemoryBoost.Models.ViewModels.PersonalAreaViewModel
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -6,7 +6,8 @@
 <div class="container h-100">
     <div class="row mb-3">
         <a class="btn btn-lg btn-outline ml-3 px-xl-5 px-lg-5 px-md-4"
-           style="background-color: #59F9CC; color: #806CDD; border-radius: 35px;">create your personal trainig</a>
+           asp-area="" asp-controller="Trainings" asp-action="Create"
+           style="background-color: #59F9CC; color: #806CDD; border-radius: 35px;">create your personal training</a>
         @if (User.IsInRole(ApplicationRoles.Administrators))
         {
             <a class="btn btn-lg btn-outline ml-3 px-xl-5 px-lg-5 px-md-4"
@@ -17,7 +18,7 @@
            style="border-color: #806CDD; color: #806CDD; border-radius: 35px;">edit profile</a>
     </div>
     <div class="row h-75">
-        <div class="col-5 h-100 d-flex flex-column justify-content-center">
+        <div class="col-7 h-100 d-flex flex-column justify-content-center">
             <a class="text-white align-self-center mb-2" style="font-size: 20px;">your trainings</a>
             <div style="background-color: rgba(255,255,255,0.5); border-radius: 35px; height: 100%; overflow-x: auto"
                  class="container d-flex flex-column text-black">
@@ -37,27 +38,57 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.Trainings.OrderByDescending(x => x.Created))
                         {
-                            <tr>
-                                <td>
-                                    training name
-                                </td>
-                                <td>
-                                    exercises
-                                </td>
-                                <td>
-                                    <a class="btn btn-outline px-xl-5 px-lg-5 px-md-4"
-                                       style="border-color: black; color: black; border-radius: 35px;">start</a>
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Name)
+                            </td>
+                            <td>
+                                @if (item.NumOfLevelOneGame >= 1)
+                                {
+                                    <a>The Easy One (rounds: @item.NumOfLevelOneGame)</a>
+                                    <br>
+                                }
+                                @if (item.NumOfLevelTwoGame >= 1)
+                                {
+                                    <a>Try Yourself (rounds: @item.NumOfLevelTwoGame)</a>
+                                    <br>
+                                }
+                                @if (item.NumOfLevelThreeGame >= 1)
+                                {
+                                    <a>Hardcore (rounds: @item.NumOfLevelThreeGame)</a>
+                                    <br>
+                                }
+                            </td>
+                            <td>
+                                <a class="btn btn-outline"
+                                   asp-area="" asp-controller="Trainings" asp-action="ChooseTraining" asp-route-id="@item.Id"
+                                   style="border-color: black; color: black; border-radius: 35px;">start</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-outline"
+                                   asp-area="" asp-controller="PersonalArea" asp-action="TrainingResults" asp-route-trainingId="@item.Id"
+                                   style="border-color: black; color: black; border-radius: 35px;">results</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-outline"
+                                   asp-area="" asp-controller="Trainings" asp-action="Edit" asp-route-id="@item.Id"
+                                   style="border-color: black; color: black; border-radius: 35px;">edit</a>
+                            </td>
+                            <td>
+                                <a class="btn btn-outline"
+                                   asp-area="" asp-controller="Trainings" asp-action="Delete" asp-route-id="@item.Id"
+                                   style="border-color: black; color: black; border-radius: 35px;">delete</a>
+                            </td>
+                        </tr>
+                            <tr></tr>
                         }
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="col-1 h-100"></div>
-        <div class="col-6 h-100 d-flex flex-column justify-content-center">
+        <div class="col-5 h-100 d-flex flex-column justify-content-center">
             <a class="text-white align-self-center mb-2" style="font-size: 20px;">results</a>
             <div style="background-color: rgba(255,255,255,0.5); border-radius: 35px;  height: 100%; overflow-x: auto"
                  class="container d-flex flex-column text-black">
@@ -65,44 +96,41 @@
                     <thead>
                         <tr>
                             <th>
-                                Game date
+                                game date
                             </th>
                             <th>
-                                game name
+                                Level
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Level)
+                                Time
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Time)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Score)
+                                Score
                             </th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model)
+                        @foreach (var item in Model.Games.OrderByDescending(x => x.Created))
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Created)
-                                </td>
-                                <td>
-                                    game name
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Level.Name)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Time)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Score)
-                                </td>
-                            </tr>
-                        }
+                            @if (item.Training == null)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Created)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Level.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Time)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Score)
+                                    </td>
+                                </tr>
+                                }
+                            }
                     </tbody>
                 </table>
             </div>

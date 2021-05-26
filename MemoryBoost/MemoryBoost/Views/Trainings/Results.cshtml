@@ -1,0 +1,32 @@
+﻿@model MemoryBoost.Models.Training
+
+
+<div style="background-color: #59F9CC; color: #806CDD; border-radius: 35px; border: #806CDD solid 3px; overflow: hidden;" 
+     class="container d-flex flex-column w-50 align-self-center justify-content-center">
+    <a class="btn font-weight-bold" style="font-size: 35px;">results</a>
+    <a class="font-weight-bold mt-1" style="color: #806CDD; font-size: 30px;">training: @Model.Name</a>
+    <table>
+        <tbody>
+            @foreach (var item in Model.Games.OrderByDescending(game => game.Created).Take((int)(Model.NumOfLevelOneGame + Model.NumOfLevelTwoGame + Model.NumOfLevelThreeGame)))
+            {
+                <tr>
+                    <td>
+                        round: @Html.DisplayFor(modelItem => item.NumInQueue)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Level.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Time)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Score)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a class="btn btn-outline font-weight-bold my-2"
+       asp-area="" asp-controller="Trainings" asp-action="Index"
+       style="border: #806CDD solid 3px; border-radius: 35px; color: #806CDD; font-size: 30px;">play again</a>
+</div>

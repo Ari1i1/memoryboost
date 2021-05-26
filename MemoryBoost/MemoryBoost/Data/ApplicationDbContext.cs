@@ -16,9 +16,15 @@ namespace MemoryBoost.Data
         public DbSet<GameLevel> GameLevels { get; set; }
         public DbSet<Card> Cards { get; set; }
         public DbSet<Game> Games { get; set; }
+        public DbSet<CardGame> CardGames { get; set; }
+        public DbSet<Training> Trainings { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<CardGame>()
+                .HasKey(x => new { x.CardId, x.GameId });
+            builder.Entity<Training>().HasMany(x => x.Games).WithOne(t => t.Training).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

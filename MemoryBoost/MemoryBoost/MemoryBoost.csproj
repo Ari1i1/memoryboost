@@ -76,6 +76,24 @@
     <Compile Remove="Data\Migrations\20210507173920_AddCardAndGame.Designer.cs" />
     <Compile Remove="Data\Migrations\20210508161158_AddCardAndGame.cs" />
     <Compile Remove="Data\Migrations\20210508161158_AddCardAndGame.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210509122034_AddCardAndGame.cs" />
+    <Compile Remove="Data\Migrations\20210509122034_AddCardAndGame.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210510113329_AddCardAndGame.cs" />
+    <Compile Remove="Data\Migrations\20210510113329_AddCardAndGame.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210510113516_AddCardGames.cs" />
+    <Compile Remove="Data\Migrations\20210510113516_AddCardGames.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210510123617_AddTraining.cs" />
+    <Compile Remove="Data\Migrations\20210510123617_AddTraining.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210510124618_AddCardAndGame.cs" />
+    <Compile Remove="Data\Migrations\20210510124618_AddCardAndGame.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210510125231_AddTraining.cs" />
+    <Compile Remove="Data\Migrations\20210510125231_AddTraining.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210510143216_AddTraining.cs" />
+    <Compile Remove="Data\Migrations\20210510143216_AddTraining.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210526112443_AddDeleteBehavior.cs" />
+    <Compile Remove="Data\Migrations\20210526112443_AddDeleteBehavior.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210526112731_AddDeleteBehavior.cs" />
+    <Compile Remove="Data\Migrations\20210526112731_AddDeleteBehavior.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

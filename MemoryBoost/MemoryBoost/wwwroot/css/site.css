@@ -82,6 +82,12 @@ body {
     height: 80%;
 }
 
+td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: solid 1px black;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -197,41 +203,6 @@ body {
         -o-transform: rotateY( 180deg );
         transform: rotateY( 180deg );
     }
-
-/*Colors for front and back applied here*/
-.cardContainer:first-child .card .front {
-    background: #2aa9e0;
-}
-
-.cardContainer:first-child .card .back {
-    background: #2aa9e0;
-}
-
-.cardContainer:nth-child(2) .card .front {
-    background: #f39c12;
-}
-
-.cardContainer:nth-child(2) .card .back {
-    background: #f39c12;
-}
-
-.cardContainer:nth-child(3) .card .front {
-    background: #27ae60;
-}
-
-.cardContainer:nth-child(3) .card .back {
-    background: #27ae60;
-}
-
-.cardContainer:nth-child(4) .card .front {
-    background: #AD103C;
-}
-
-.cardContainer:nth-child(4) .card .back {
-    background: #AD103C;
-}
-
-
 
 h3.cardTitle {
     line-height: 1.2em;

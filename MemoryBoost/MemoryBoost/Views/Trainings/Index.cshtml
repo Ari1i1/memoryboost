@@ -1,0 +1,17 @@
+﻿@model IEnumerable<MemoryBoost.Models.Training>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div style="background-color: #59F9CC; color: #806CDD; border-radius: 35px;"
+     class="container d-flex flex-column w-50 h-50 align-self-center justify-content-center">
+    <a class="btn btn-lg btn-block btn-outline font-weight-bold" style="font-size: 35px;">choose the training</a>
+    @foreach (var item in Model)
+    {
+
+        <a class="btn btn-lg btn-block btn-outline font-weight-bold"
+           asp-area="" asp-controller="Trainings" asp-action="ChooseTraining" asp-route-Id="@item.Id"
+           style="border: #806CDD solid 3px; border-radius: 35px; color: #806CDD; font-size: 30px;">@Html.DisplayFor(modelItem => item.Name)</a>
+    }
+</div>

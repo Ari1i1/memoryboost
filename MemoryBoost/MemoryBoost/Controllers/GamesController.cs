@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using MemoryBoost.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using MemoryBoost.Models.ViewModels;
 
 namespace MemoryBoost.Controllers
 {
@@ -35,7 +36,7 @@ namespace MemoryBoost.Controllers
                 .Include(g => g.Player)
                 .Include(g => g.Cards)
                 .Where(g => g.Id == id).ToListAsync();
-  
+
             return View(applicationDbContext);
         }
 
@@ -50,7 +51,10 @@ namespace MemoryBoost.Controllers
             var game = await _context.Games
                 .Include(g => g.Level)
                 .Include(g => g.Player)
+                .Include(g => g.Training)
+                .ThenInclude(g => g.Games)
                 .Include(g => g.Cards)
+                .ThenInclude(g => g.Card)
                 .Where(g => g.Id == id)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
@@ -58,7 +62,7 @@ namespace MemoryBoost.Controllers
             {
                 return NotFound();
             }
-
+            
             var cardList = new List<Card>();
             var busyPlacements = new List<Boolean>();
             for (int i = 0; i < game.Level.CardsNumber; i++)
@@ -84,54 +88,117 @@ namespace MemoryBoost.Controllers
                     else
                         break;
                     busyPlacements[randPlacement] = true;
-                    cardList[randPlacement] = item;
+                    cardList[randPlacement] = item.Card;
                     count++;
                 }
             }
 
-            game.Cards = cardList;
-            return View(game);
+            var gameView = new GameViewModel
+            {
+                Id = game.Id,
+                Level = game.Level,
+                Score = game.Score,
+                Time = game.Time,
+                Cards = cardList,
+                Training = game.Training,
+                NumInQueue = game.NumInQueue
+            };
+
+            return View(gameView);
         }
 
         // GET: Games/Create
         [AllowAnonymous]
-        public async Task<IActionResult> Create(Int32 levelId)
+        public async Task<IActionResult> Create(Int32 levelId, Guid trainingId)
         {
             var level = await this._context.GameLevels
                 .SingleOrDefaultAsync(x => x.Id == levelId);
+            var training = await this._context.Trainings
+                .Include(t => t.Games)
+                .SingleOrDefaultAsync(x => x.Id == trainingId);
 
-            if (level == null)
+            /*if (level == null || training == null)
             {
                 return this.NotFound();
-            }
+            }*/
 
-            var randForCard = _randomNumbersService.GetRandomNumber();
-            var cards = await _context.Cards.ToListAsync(); //?????????????
-            var cardList = new List<Card>();
-            foreach (var item in cards)
+            if (level != null)
             {
-                if (item.RandNum == randForCard)
+                var game = new Game
                 {
-                    cardList.Add(item);
-                }
-            }
-            var game = new Game
-            {
-                Created = DateTime.UtcNow,
-                LevelId = levelId,
-                Score = 0,
-                Cards = cardList
-            };
+                    Created = DateTime.UtcNow,
+                    LevelId = levelId,
+                    Time = "00:00:00",
+                    Score = 0,
+                    Cards = new List<CardGame>()
+                };
 
-            if (User.Identity.IsAuthenticated)
+                if (User.Identity.IsAuthenticated)
+                {
+                    var user = await _userManager.GetUserAsync(this.HttpContext.User);
+                    game.Player = user;
+                }
+
+                _context.Add(game);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Create", "CardGames", new { gameId = game.Id });
+            }
+            else //??????
             {
                 var user = await _userManager.GetUserAsync(this.HttpContext.User);
-                game.Player = user;
+                var numInQueue = 1;
+                for (int i = 0; i < training.NumOfLevelOneGame; i++)
+                {
+                    var game = new Game
+                    {
+                        Created = DateTime.UtcNow,
+                        Player = user,
+                        LevelId = 1,
+                        Score = 0,
+                        Cards = new List<CardGame>(),
+                        Training = training,
+                        NumInQueue = numInQueue
+                    };
+                    numInQueue++;
+                    training.Games.Add(game);
+                    _context.Add(game);
+                }
+                for (int i = 0; i < training.NumOfLevelTwoGame; i++)
+                {
+                    var game = new Game
+                    {
+                        Created = DateTime.UtcNow,
+                        Player = user,
+                        LevelId = 2,
+                        Score = 0,
+                        Cards = new List<CardGame>(),
+                        Training = training,
+                        NumInQueue = numInQueue
+                    };
+                    numInQueue++;
+                    training.Games.Add(game);
+                    _context.Add(game);
+                }
+                for (int i = 0; i < training.NumOfLevelThreeGame; i++)
+                {
+                    var game = new Game
+                    {
+                        Created = DateTime.UtcNow,
+                        Player = user,
+                        LevelId = 3,
+                        Score = 0,
+                        Cards = new List<CardGame>(),
+                        Training = training,
+                        NumInQueue = numInQueue
+                    };
+                    numInQueue++;
+                    training.Games.Add(game);
+                    _context.Add(game);
+                }
+                
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Create", "CardGames", new { trainingId = training.Id });
             }
-
-            _context.Add(game);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Details", new { id = game.Id });
         }
 
         // GET: Games/Delete/5
@@ -172,7 +239,7 @@ namespace MemoryBoost.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Results(String id, String score, String timer)
+        public async Task<IActionResult> Results(String id, String score, String timer, String flag)
         {
             bool success = Int32.TryParse(score, out Int32 s);
             if (id == null)
@@ -182,12 +249,21 @@ namespace MemoryBoost.Controllers
             var game = await _context.Games
                 .Include(g => g.Level)
                 .Include(g => g.Player)
+                .Include(g => g.Training)
+                .ThenInclude(t => t.Games)
                 .FirstOrDefaultAsync(m => m.Id.ToString() == id);
 
             if (game == null)
             {
                 return NotFound();
             }
+
+            var user = await _userManager.GetUserAsync(this.HttpContext.User);
+            if (user == null)
+            {
+                return View(game);
+            }
+
             if (success)
             {
                 game.Score = s;
@@ -196,9 +272,41 @@ namespace MemoryBoost.Controllers
             {
                 game.Score = 0;
             }
-            game.Time = timer;
+
+            if (timer != null)
+            {
+                game.Time = timer;
+            }
+
             await _context.SaveChangesAsync();
-            return View(game);
+            if (game.Training != null)
+            {
+                Int32? numOfGamesInTraining = game.Training.NumOfLevelOneGame + game.Training.NumOfLevelTwoGame + game.Training.NumOfLevelThreeGame;
+                List<Game> JustCreatedGames = (List<Game>)game.Training.Games.OrderByDescending(x => x.Created).ToList();
+
+                /*  foreach (var item in JustCreatedGames.Take((int)numOfGamesInTraining))*/
+
+                if (game.NumInQueue == numOfGamesInTraining || flag == "UserStopped")
+                {
+                    return RedirectToAction("Results", "Trainings", new { id = game.Training.Id });
+                }
+                else
+                {
+                    foreach (var item in JustCreatedGames.Take((int)numOfGamesInTraining))
+                    {
+                        if (item.NumInQueue == (game.NumInQueue + 1))
+                        {
+                            return RedirectToAction("Details", "Games", new { id = item.Id });
+                        }
+                    }
+                    /*return RedirectToAction("Details", "Games", new { id = item.Id });*/
+                    return View(game);//////////
+                }
+            }
+            else
+            {
+                return View(game);/////////////////
+            }
         }
     }
 }

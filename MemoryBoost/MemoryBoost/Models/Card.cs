@@ -15,5 +15,6 @@ namespace MemoryBoost.Models
         [Required]
         public String FileName { get; set; }
         public Int32? RandNum { get; set; }
+        public List<CardGame> Games { get; set; }
     }
 }

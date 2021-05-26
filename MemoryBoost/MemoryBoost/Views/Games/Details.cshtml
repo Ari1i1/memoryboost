@@ -1,11 +1,21 @@
-﻿@model MemoryBoost.Models.Game
+﻿@model MemoryBoost.Models.ViewModels.GameViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
-
 @using (Html.BeginForm("Results", "Games"))
 {
+<div class="row justify-content-center">
+    @if (Model.Training != null)
+    {
+        <div class="mb-2 mr-5">
+            <a class="text-white px-xl-5 px-lg-5 px-md-4" style="font-size: 20px;">training: @Model.Training.Name</a>
+        </div>
+        <div class="mb-2 mr-5">
+            <a class="text-white px-xl-5 px-lg-5 px-md-4" style="font-size: 20px;">round: @Model.NumInQueue</a>
+        </div>
+    }
+</div>
     <div class="row justify-content-between">
         <div>
             <div>
@@ -13,7 +23,7 @@
                 <input type="hidden" name="timer" value="" />
             </div>
         </div>
-        <div class="my-2 mr-5">
+        <div class="mb-2 mr-5">
             <a class="text-white px-xl-5 px-lg-5 px-md-4" style="font-size: 20px;">level: @Model.Level.Name</a>
             <input type="hidden" name="numberOfCards" asp-for="@Model.Level.CardsNumber" />
             <input type="hidden" name="secForMemorizing" asp-for="@Model.Level.SecForMemorizing" />
@@ -22,15 +32,16 @@
     <div class="row justify-content-between">
         <div>
             <div>
-                <a class="text-white px-xl-5 px-lg-5 px-md-4" name="score" style="font-size: 20px;">points: @Model.Score</a>
+                <a class="text-white px-xl-5 px-lg-5 px-md-4" name="score" style="font-size: 20px;">points: 0</a>
             </div>
         </div>
         <div class="row my-2">
             <div class="mr-2">
-                <input name="pause" value="pause" type="button" class="btn btn-lg btn-block btn-outline px-xl-5 px-lg-5 px-md-4" 
-                       style="background-color: #59F9CC; color: #806CDD; border-radius: 35px;"/>
+                <input name="pause" value="pause" type="button" class="btn btn-lg btn-block btn-outline px-xl-5 px-lg-5 px-md-4"
+                       style="background-color: #59F9CC; color: #806CDD; border-radius: 35px;" />
             </div>
             <div class="mr-5">
+                <input type="hidden" name="flag" value="UserStopped" />
                 <input type="hidden" name="score" value="" />
                 <input type="hidden" name="id" value="@Model.Id" />
                 <input type="submit" class="btn btn-lg btn-block btn-outline text-white px-xl-5 px-lg-5 px-md-4" value="stop"

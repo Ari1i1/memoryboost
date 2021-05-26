@@ -210,3 +210,15 @@ D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Cards\Index.cshtml.g.cs
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Games\Results.cshtml.g.cs
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\PersonalArea\Index.cshtml.g.cs
+D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\CardGames\Create.cshtml.g.cs
+D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\CardGames\Delete.cshtml.g.cs
+D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\CardGames\Details.cshtml.g.cs
+D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\CardGames\Edit.cshtml.g.cs
+D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\CardGames\Index.cshtml.g.cs
+D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Trainings\Create.cshtml.g.cs
+D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Trainings\Delete.cshtml.g.cs
+D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Trainings\Details.cshtml.g.cs
+D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Trainings\Edit.cshtml.g.cs
+D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Trainings\Index.cshtml.g.cs
+D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Trainings\Results.cshtml.g.cs
+D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\PersonalArea\TrainingResults.cshtml.g.cs
