@@ -1,4 +1,4 @@
-# Браузерная игра с парными картинками для развития памяти
+# Браузерная игра с парными картинками
 На стеке технологий: ASP.NET Core MVC, Entity Framework Core, Identity ASP.NET Core, С#, JavaScript и Bootstrap.
 
 ## Описание игры:
