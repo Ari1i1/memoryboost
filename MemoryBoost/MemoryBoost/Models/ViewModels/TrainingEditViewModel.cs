@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MemoryBoost.Models.ViewModels
 {
-    public class TrainingCreateViewModel
+    public class TrainingEditViewModel
     {
         [Required]
         public String Name { get; set; }

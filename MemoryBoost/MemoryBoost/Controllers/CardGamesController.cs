@@ -98,7 +98,11 @@ namespace MemoryBoost.Controllers
             }
             else
             {
-                foreach (var g in training.Games)
+                Int32? numOfGamesInTraining = training.NumOfLevelOneGame + training.NumOfLevelTwoGame + training.NumOfLevelThreeGame;
+                List<Game> JustCreatedGames = (List<Game>)training.Games.OrderByDescending(x => x.Created).ToList();
+                /*JustCreatedGames.OrderByDescending(x => x.Created).ToList();*/
+                    
+                foreach (var g in JustCreatedGames.Take((int)numOfGamesInTraining))
                 {
                     var randForCard = _randomNumbersService.GetRandomNumber();
                     var cards = await _context.Cards
@@ -125,7 +129,7 @@ namespace MemoryBoost.Controllers
                     }
                 }
                 await _context.SaveChangesAsync();
-                return this.RedirectToAction("Details", "Trainings", new { id = training.Id });
+                return this.RedirectToAction("Start", "Trainings", new { trainingId = training.Id });
             }
             return View();///////
         }

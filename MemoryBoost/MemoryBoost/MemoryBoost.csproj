@@ -90,6 +90,10 @@
     <Compile Remove="Data\Migrations\20210510125231_AddTraining.Designer.cs" />
     <Compile Remove="Data\Migrations\20210510143216_AddTraining.cs" />
     <Compile Remove="Data\Migrations\20210510143216_AddTraining.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210526112443_AddDeleteBehavior.cs" />
+    <Compile Remove="Data\Migrations\20210526112443_AddDeleteBehavior.Designer.cs" />
+    <Compile Remove="Data\Migrations\20210526112731_AddDeleteBehavior.cs" />
+    <Compile Remove="Data\Migrations\20210526112731_AddDeleteBehavior.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

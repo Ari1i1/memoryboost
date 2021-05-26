@@ -47,6 +47,27 @@ namespace MemoryBoost.Controllers
             };
             return View(personalAreaModel);
         }
+        public async Task<IActionResult> TrainingResults(Guid trainingId)
+        {
+            if (trainingId == null)
+            {
+                return NotFound();
+            }
+
+            var training = await _context.Trainings
+                .Include(g => g.Games)
+                .ThenInclude(g => g.Level)
+                .Include(g => g.Player)
+                .Where(g => g.Id == trainingId)
+                .FirstOrDefaultAsync(m => m.Id == trainingId);
+
+            if (training == null)
+            {
+                return NotFound();
+            }
+
+            return View(training);
+        }
 
         // GET: PersonalAreaController/Details/5
         public ActionResult Details(int id)

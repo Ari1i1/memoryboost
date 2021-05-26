@@ -59,6 +59,44 @@ namespace MemoryBoost.Controllers
 
             }
         }
+        public async Task<IActionResult> Start(Guid trainingId)
+        {
+            var user = await _userManager.GetUserAsync(this.HttpContext.User);
+
+            if (user.Id == null)
+            {
+                return NotFound();
+            }
+
+            if (trainingId == null)
+            {
+                return NotFound();
+            }
+            var training = await _context.Trainings
+                .Include(t => t.Games)
+                .ThenInclude(g => g.Cards)
+                .Include(t => t.Player)
+                .FirstOrDefaultAsync(m => m.Id == trainingId);
+
+            if (training == null)
+            {
+                return NotFound();
+            }
+
+            Int32? numOfGamesInTraining = training.NumOfLevelOneGame + training.NumOfLevelTwoGame + training.NumOfLevelThreeGame;
+            List<Game> JustCreatedGames = (List<Game>)training.Games.OrderByDescending(x => x.Created).ToList();
+
+            foreach (var item in JustCreatedGames.Take((int)numOfGamesInTraining))
+            {
+                if (item.NumInQueue == 1)
+                {
+                    return RedirectToAction("Details", "Games", new { id = item.Id });
+                }
+            }
+
+            return RedirectToAction("Index"); /////////////////
+
+        }
         public async Task<IActionResult> ChooseTraining(Guid id)
         {
             if (id == null)
@@ -78,13 +116,14 @@ namespace MemoryBoost.Controllers
             }
             else
             {
-                foreach (var item in training.Games)
+                return RedirectToAction("Create", "Games", new { trainingId = training.Id });
+                /*foreach (var item in training.Games)
                 {
                     if (item.NumInQueue == 1)
                     {
                         return RedirectToAction("Details", "Games", new { id = item.Id });
                     }
-                }
+                }*/
             }
             return NotFound();
         }
@@ -120,7 +159,7 @@ namespace MemoryBoost.Controllers
                 };
                 _context.Add(training);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Create", "Games", new { trainingId = training.Id });
+                return RedirectToAction("Index", "PersonalArea");
             }
             
             return View(model);
@@ -134,13 +173,21 @@ namespace MemoryBoost.Controllers
                 return NotFound();
             }
 
-            var training = await _context.Trainings.FindAsync(id);
+            var training = await _context.Trainings
+                .SingleOrDefaultAsync(m => m.Id == id);
+
             if (training == null)
             {
                 return NotFound();
             }
-            ViewData["PlayerId"] = new SelectList(_context.Users, "Id", "Id", training.PlayerId);
-            return View(training);
+            var model = new TrainingEditViewModel()
+            {
+                Name = training.Name,
+                NumOfLevelOneGame = training.NumOfLevelOneGame,
+                NumOfLevelTwoGame = training.NumOfLevelTwoGame,
+                NumOfLevelThreeGame = training.NumOfLevelThreeGame
+            };
+            return View(model);
         }
 
         // POST: Trainings/Edit/5
@@ -148,35 +195,33 @@ namespace MemoryBoost.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,PlayerId,Created,NumOfLevelOneGame,NumOfLevelTwoGame,NumOfLevelThreeGame")] Training training)
+        public async Task<IActionResult> Edit(Guid id, TrainingEditViewModel model)
         {
-            if (id != training.Id)
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var training = await _context.Trainings
+               .SingleOrDefaultAsync(m => m.Id == id);
+
+            if (training == null)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(training);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TrainingExists(training.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                training.Name = model.Name;
+                training.NumOfLevelOneGame = model.NumOfLevelOneGame;
+                training.NumOfLevelTwoGame = model.NumOfLevelTwoGame;
+                training.NumOfLevelThreeGame = model.NumOfLevelThreeGame;
+
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", "PersonalArea");
             }
-            ViewData["PlayerId"] = new SelectList(_context.Users, "Id", "Id", training.PlayerId);
-            return View(training);
+
+            return View(model);
         }
 
         // GET: Trainings/Delete/5
@@ -188,6 +233,8 @@ namespace MemoryBoost.Controllers
             }
 
             var training = await _context.Trainings
+                .Include(t => t.Games)
+                .ThenInclude(g => g.Cards)
                 .Include(t => t.Player)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (training == null)
@@ -203,16 +250,27 @@ namespace MemoryBoost.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var training = await _context.Trainings.FindAsync(id);
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var training = await _context.Trainings
+                .Include(t => t.Games)
+                .ThenInclude(g => g.Cards)
+                .Include(t => t.Player)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (training == null)
+            {
+                return NotFound();
+            }
+
             _context.Trainings.Remove(training);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Index", "PersonalArea");
         }
 
-        private bool TrainingExists(Guid id)
-        {
-            return _context.Trainings.Any(e => e.Id == id);
-        }
         public async Task<IActionResult> Results(Guid id)
         {
             if (id == null)

@@ -1,0 +1,50 @@
+﻿@model MemoryBoost.Models.Training
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="col-12 h-100 d-flex flex-column justify-content-center">
+    <a class="text-white align-self-center mb-2" style="font-size: 20px;">@Model.Name results</a>
+    <div style="background-color: rgba(255,255,255,0.5); border-radius: 35px;  height: 100%; overflow-x: auto"
+         class="container d-flex flex-column text-black">
+        <table class="">
+            <thead>
+                <tr>
+                    <th>
+                        game date
+                    </th>
+                    <th>
+                        Level
+                    </th>
+                    <th>
+                        Time
+                    </th>
+                    <th>
+                        Score
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Games.OrderByDescending(x => x.Created))
+                {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Created)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Level.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Time)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Score)
+                            </td>
+                        </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

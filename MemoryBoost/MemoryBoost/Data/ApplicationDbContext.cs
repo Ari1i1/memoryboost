@@ -24,6 +24,7 @@ namespace MemoryBoost.Data
 
             builder.Entity<CardGame>()
                 .HasKey(x => new { x.CardId, x.GameId });
+            builder.Entity<Training>().HasMany(x => x.Games).WithOne(t => t.Training).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

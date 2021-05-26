@@ -257,6 +257,13 @@ namespace MemoryBoost.Controllers
             {
                 return NotFound();
             }
+
+            var user = await _userManager.GetUserAsync(this.HttpContext.User);
+            if (user == null)
+            {
+                return View(game);
+            }
+
             if (success)
             {
                 game.Score = s;
@@ -265,35 +272,40 @@ namespace MemoryBoost.Controllers
             {
                 game.Score = 0;
             }
-            game.Time = timer;
+
+            if (timer != null)
+            {
+                game.Time = timer;
+            }
+
             await _context.SaveChangesAsync();
             if (game.Training != null)
             {
-                if (game.NumInQueue == game.Training.Games.Count)
+                Int32? numOfGamesInTraining = game.Training.NumOfLevelOneGame + game.Training.NumOfLevelTwoGame + game.Training.NumOfLevelThreeGame;
+                List<Game> JustCreatedGames = (List<Game>)game.Training.Games.OrderByDescending(x => x.Created).ToList();
+
+                /*  foreach (var item in JustCreatedGames.Take((int)numOfGamesInTraining))*/
+
+                if (game.NumInQueue == numOfGamesInTraining || flag == "UserStopped")
                 {
                     return RedirectToAction("Results", "Trainings", new { id = game.Training.Id });
                 }
                 else
                 {
-                    if (flag == "UserStopped")
+                    foreach (var item in JustCreatedGames.Take((int)numOfGamesInTraining))
                     {
-                        return RedirectToAction("Results", "Trainings", new { id = game.Training.Id });
-                    }
-                    else
-                    {
-                        int i = 0;
-                        for (i = 0; i < game.Training.Games.Count; i++)
+                        if (item.NumInQueue == (game.NumInQueue + 1))
                         {
-                            if (game.Training.Games[i].NumInQueue == (game.NumInQueue + 1))
-                                break;
+                            return RedirectToAction("Details", "Games", new { id = item.Id });
                         }
-                        return RedirectToAction("Details", "Games", new { id = game.Training.Games[i].Id });
                     }
+                    /*return RedirectToAction("Details", "Games", new { id = item.Id });*/
+                    return View(game);//////////
                 }
             }
             else
             {
-                return View(game);
+                return View(game);/////////////////
             }
         }
     }

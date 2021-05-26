@@ -221,3 +221,4 @@ D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Trainings\Edit.cshtml.g.cs
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Trainings\Index.cshtml.g.cs
 D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\Trainings\Results.cshtml.g.cs
+D:\unik\MemoryBoost\MemoryBoost\MemoryBoost\obj\Debug\netcoreapp3.1\Razor\Views\PersonalArea\TrainingResults.cshtml.g.cs

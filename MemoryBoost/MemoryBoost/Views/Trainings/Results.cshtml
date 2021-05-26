@@ -7,7 +7,7 @@
     <a class="font-weight-bold mt-1" style="color: #806CDD; font-size: 30px;">training: @Model.Name</a>
     <table>
         <tbody>
-            @foreach (var item in Model.Games.OrderBy(game => game.NumInQueue))
+            @foreach (var item in Model.Games.OrderByDescending(game => game.Created).Take((int)(Model.NumOfLevelOneGame + Model.NumOfLevelTwoGame + Model.NumOfLevelThreeGame)))
             {
                 <tr>
                     <td>
